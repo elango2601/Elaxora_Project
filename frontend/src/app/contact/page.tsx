@@ -39,22 +39,22 @@ export default function ContactPage() {
             <div className="space-y-1">
               <span className="text-xs text-slate-500 uppercase block font-bold">WhatsApp</span>
               <a
-                href="https://wa.me/919999999999?text=Hi%20Elaxora Solutions,%20I%20have%20a%20question%20regarding%20final-year%20projects."
+                href="https://wa.me/916374578233?text=Hi%20Elaxora Solutions,%20I%20have%20a%20question%20regarding%20final-year%20projects."
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs font-bold text-indigo-400 hover:text-indigo-300 block"
+                className="text-xs font-bold text-emerald-400 hover:text-emerald-300 block"
               >
-                💬 +91 99999 99999
+                💬 +91 63745 78233
               </a>
             </div>
 
             <div className="space-y-1">
               <span className="text-xs text-slate-500 uppercase block font-bold">Email</span>
               <a
-                href="mailto:support@elaxorasolutions.in"
+                href="mailto:elaxora11@gmail.com"
                 className="text-xs font-bold text-indigo-400 hover:text-indigo-300 block"
               >
-                ✉️ support@elaxorasolutions.in
+                ✉️ elaxora11@gmail.com
               </a>
             </div>
 

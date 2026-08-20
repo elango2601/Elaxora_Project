@@ -61,16 +61,26 @@ export default function Footer() {
 
           {/* Legal / Contact */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Legal</h3>
-            <ul className="space-y-2 text-sm mb-4">
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Contact & Legal</h3>
+            <ul className="space-y-3 text-sm mb-4">
               <li>
+                <a href="https://wa.me/916374578233" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300 transition-colors font-medium flex items-center gap-2">
+                  <span>📱 WhatsApp: 6374578233</span>
+                </a>
+              </li>
+              <li>
+                <a href="mailto:elaxora11@gmail.com" className="text-indigo-400 hover:text-indigo-300 transition-colors font-medium flex items-center gap-2">
+                  <span>✉️ elaxora11@gmail.com</span>
+                </a>
+              </li>
+              <li className="pt-2">
                 <Link href="/privacy" className="text-slate-400 hover:text-white transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
                 <Link href="/terms" className="text-slate-400 hover:text-white transition-colors">
-                  Terms & Conditions
+                  Terms of Service
                 </Link>
               </li>
             </ul>

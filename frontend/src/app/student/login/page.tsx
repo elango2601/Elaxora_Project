@@ -12,7 +12,8 @@ import {
   sendPasswordResetEmail,
   sendSignInLinkToEmail,
   isSignInWithEmailLink,
-  signInWithEmailLink
+  signInWithEmailLink,
+  onAuthStateChanged
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -32,6 +33,12 @@ function StudentLoginForm() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        router.push(redirectUrl);
+      }
+    });
+
     if (isSignInWithEmailLink(auth, window.location.href)) {
       let emailForSignIn = window.localStorage.getItem('emailForSignIn');
       if (!emailForSignIn) {
@@ -51,7 +58,8 @@ function StudentLoginForm() {
           });
       }
     }
-  }, []);
+    return () => unsubscribe();
+  }, [router, redirectUrl]);
 
   const handleAuthSuccess = async (userCredential: any) => {
     document.cookie = `student_token=${await userCredential.user.getIdToken()}; path=/; max-age=604800`;

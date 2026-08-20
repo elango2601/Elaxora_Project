@@ -342,13 +342,29 @@ export default function AdminEnquiriesPage() {
 
                   <div className="space-y-2">
                     <div>
+                      <span className="text-[10px] text-slate-500 block">Academic Details</span>
+                      <span className="text-white font-semibold">
+                        {selectedEnquiry.college_name || "N/A"} • {selectedEnquiry.department || "N/A"} • {selectedEnquiry.year_of_study || "N/A"}
+                      </span>
+                    </div>
+                    <div>
                       <span className="text-[10px] text-slate-500 block">Requested Baseline Project</span>
                       <span className="text-white font-semibold">{selectedEnquiry.project_id}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-slate-500 block">Preferred Technology</span>
+                      <span className="text-white font-semibold">{selectedEnquiry.preferred_technology || "Any / Undecided"}</span>
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-500 block">Target Budget & Deadline</span>
                       <span className="text-white font-semibold">
                         {selectedEnquiry.budget_range} • Deadline: {selectedEnquiry.required_deadline}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-slate-500 block">Requirements</span>
+                      <span className="text-white font-semibold">
+                        Demo Needed: {selectedEnquiry.demo_required ? "Yes" : "No"} • Deployment: {selectedEnquiry.deployment_required ? "Yes" : "No"}
                       </span>
                     </div>
                     {selectedEnquiry.referral_code && (
@@ -359,7 +375,7 @@ export default function AdminEnquiriesPage() {
                     )}
                     <div>
                       <span className="text-[10px] text-slate-500 block">Message Details</span>
-                      <p className="text-slate-400 p-2 bg-slate-950/30 rounded italic">{selectedEnquiry.message}</p>
+                      <p className="text-slate-400 p-2 bg-slate-950/30 rounded italic">{selectedEnquiry.message || "No additional message"}</p>
                     </div>
                   </div>
 
