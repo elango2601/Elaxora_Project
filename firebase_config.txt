@@ -1,0 +1,11 @@
+{
+  "projectId": "elaxora-466c4",
+  "appId": "1:103145495702:web:cd17a2c15046b6051bf6b7",
+  "storageBucket": "elaxora-466c4.firebasestorage.app",
+  "apiKey": "AIzaSyBofs5UZ1oWHp4Gk-n6hiXz00IC2FXBAdw",
+  "authDomain": "elaxora-466c4.firebaseapp.com",
+  "messagingSenderId": "103145495702",
+  "measurementId": "G-9B65FDTRZK",
+  "projectNumber": "103145495702",
+  "version": "2"
+}
