@@ -79,26 +79,8 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Action controls & Theme Switch (Desktop) */}
+            {/* Action controls (Desktop) */}
             <div className="hidden md:flex items-center space-x-4">
-              <button
-                onClick={toggleTheme}
-                type="button"
-                className="p-2 rounded-lg text-muted hover:text-foreground hover:bg-slate-100 dark:hover:bg-slate-900/40 transition-colors focus:outline-none"
-                aria-label="Toggle Theme"
-              >
-                {theme === "dark" ? (
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m0 13.5V21M4.22 4.22l1.58 1.58m12.42 12.42l1.58 1.58M3 12h2.25m13.5 0H21M4.22 19.78l1.58-1.58M17.78 6.22l1.58-1.58M12 7.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9z" />
-                  </svg>
-                ) : (
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 12.83A9.75 9.75 0 1111.17 2.25 9.75 9.75 0 0021.75 12.83z" />
-                  </svg>
-                )}
-              </button>
-
-
               <Link
                 href="/student/login"
                 className="text-xs font-bold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg transition-colors border border-slate-700"
@@ -111,26 +93,6 @@ export default function Navbar() {
               >
                 Get a Quote
               </Link>
-            </div>
-            
-            {/* Absolute Theme toggle for mobile to keep logo centered */}
-            <div className="absolute right-4 md:hidden flex items-center">
-              <button
-                onClick={toggleTheme}
-                type="button"
-                className="p-2 rounded-lg text-muted hover:text-foreground focus:outline-none"
-                aria-label="Toggle Theme"
-              >
-                {theme === "dark" ? (
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m0 13.5V21M4.22 4.22l1.58 1.58m12.42 12.42l1.58 1.58M3 12h2.25m13.5 0H21M4.22 19.78l1.58-1.58M17.78 6.22l1.58-1.58M12 7.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9z" />
-                  </svg>
-                ) : (
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 12.83A9.75 9.75 0 1111.17 2.25 9.75 9.75 0 0021.75 12.83z" />
-                  </svg>
-                )}
-              </button>
             </div>
 
           </div>
