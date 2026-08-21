@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AdminSidebar from "@/components/AdminSidebar";
-import { db } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 
 interface Milestone {
@@ -90,6 +91,22 @@ export default function AdminOrdersPage() {
   };
 
   async function loadOrders() {
+      // Wait for Firebase auth to initialize before making queries
+      if (!auth.currentUser) {
+        await new Promise(resolve => {
+          const unsub = onAuthStateChanged(auth, user => {
+            unsub();
+            resolve(user);
+          });
+        });
+      }
+      
+      // Double check auth
+      if (!auth.currentUser) {
+         router.push("/admin/login");
+         return;
+      }
+
     try {
       const querySnapshot = await getDocs(collection(db, "orders"));
       const list = querySnapshot.docs.map((doc) => ({

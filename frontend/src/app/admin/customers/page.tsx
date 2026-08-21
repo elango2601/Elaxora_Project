@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AdminSidebar from "@/components/AdminSidebar";
-import { db } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 
 interface Customer {
@@ -33,6 +34,22 @@ export default function AdminCustomersPage() {
         router.push("/admin/login");
         return;
       }
+      // Wait for Firebase auth to initialize before making queries
+      if (!auth.currentUser) {
+        await new Promise(resolve => {
+          const unsub = onAuthStateChanged(auth, user => {
+            unsub();
+            resolve(user);
+          });
+        });
+      }
+      
+      // Double check auth
+      if (!auth.currentUser) {
+         router.push("/admin/login");
+         return;
+      }
+
       try {
         const querySnapshot = await getDocs(collection(db, "enquiries"));
         const map = new Map<string, Customer>();

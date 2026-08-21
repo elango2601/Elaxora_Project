@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AdminSidebar from "@/components/AdminSidebar";
-import { db } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
 
 interface Project {
@@ -60,6 +61,22 @@ export default function AdminProjectsPage() {
   };
 
   async function loadProjects() {
+      // Wait for Firebase auth to initialize before making queries
+      if (!auth.currentUser) {
+        await new Promise(resolve => {
+          const unsub = onAuthStateChanged(auth, user => {
+            unsub();
+            resolve(user);
+          });
+        });
+      }
+      
+      // Double check auth
+      if (!auth.currentUser) {
+         router.push("/admin/login");
+         return;
+      }
+
     try {
       const querySnapshot = await getDocs(collection(db, "projects"));
       const data = querySnapshot.docs.map(doc => ({

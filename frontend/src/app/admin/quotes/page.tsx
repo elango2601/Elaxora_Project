@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import AdminSidebar from "@/components/AdminSidebar";
-import { db } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 interface Quote {
@@ -38,6 +39,22 @@ export default function AdminQuotesPage() {
         router.push("/admin/login");
         return;
       }
+      // Wait for Firebase auth to initialize before making queries
+      if (!auth.currentUser) {
+        await new Promise(resolve => {
+          const unsub = onAuthStateChanged(auth, user => {
+            unsub();
+            resolve(user);
+          });
+        });
+      }
+      
+      // Double check auth
+      if (!auth.currentUser) {
+         router.push("/admin/login");
+         return;
+      }
+
       try {
         const q = query(collection(db, "quotes"), orderBy("created_at", "desc"));
         const snapshot = await getDocs(q);

@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AdminSidebar from "@/components/AdminSidebar";
-import { db } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, addDoc, doc, updateDoc } from "firebase/firestore";
 
 interface Referral {
@@ -48,6 +49,22 @@ export default function AdminReferralsPage() {
   };
 
   async function loadReferrals() {
+      // Wait for Firebase auth to initialize before making queries
+      if (!auth.currentUser) {
+        await new Promise(resolve => {
+          const unsub = onAuthStateChanged(auth, user => {
+            unsub();
+            resolve(user);
+          });
+        });
+      }
+      
+      // Double check auth
+      if (!auth.currentUser) {
+         router.push("/admin/login");
+         return;
+      }
+
     try {
       const querySnapshot = await getDocs(collection(db, "referrals"));
       const data = querySnapshot.docs.map(d => ({ id: d.id, ...d.data() } as Referral));
