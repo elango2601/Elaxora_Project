@@ -16,6 +16,7 @@ import {
   onAuthStateChanged
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import { FadeInUp } from "@/components/AnimatedSection";
 
 function StudentLoginForm() {
   const router = useRouter();
@@ -141,18 +142,18 @@ function StudentLoginForm() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <FadeInUp className="min-h-screen bg-background flex relative isolate">
       {/* Left Column - Branding/Visual */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-slate-900 border-r border-white/5">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/20 via-purple-600/10 to-transparent" />
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay" />
         <div className="relative z-10 flex flex-col justify-center px-12 lg:px-24 h-full">
           <div className="mb-8">
-            <span className="text-indigo-400 font-bold tracking-wider uppercase text-sm border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 rounded-full">Elaxora Student Portal</span>
+            <span className="text-indigo-400 font-bold tracking-wider uppercase text-sm border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 rounded-full backdrop-blur-md">Elaxora Student Portal</span>
           </div>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-6">
             Your Project.<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Fully Realized.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 animate-gradient-x">Fully Realized.</span>
           </h1>
           <p className="text-lg text-slate-300 leading-relaxed mb-8 max-w-md">
             Track your custom project milestones in real-time, communicate directly with our engineers, and manage your scope securely.
@@ -169,10 +170,11 @@ function StudentLoginForm() {
       </div>
 
       {/* Right Column - Form */}
-      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-20 py-12 xl:px-24">
+      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-20 py-12 xl:px-24 relative">
+        <div className="absolute top-[20%] right-[0%] w-[300px] h-[300px] rounded-full bg-indigo-600/10 blur-[120px] pointer-events-none -z-10" />
         <div className="mx-auto w-full max-w-sm lg:max-w-md">
           <div className="mb-10 text-center lg:text-left">
-            <h2 className="text-3xl font-bold tracking-tight text-white mb-2">
+            <h2 className="text-3xl font-extrabold tracking-tight text-white mb-2">
               {isLogin ? "Welcome back" : "Create your account"}
             </h2>
             <p className="text-sm text-slate-400">
@@ -180,7 +182,7 @@ function StudentLoginForm() {
             </p>
           </div>
 
-          <div className="glass-card p-6 sm:p-8 rounded-2xl border border-white/5 shadow-2xl relative">
+          <div className="bg-slate-900/50 backdrop-blur-xl p-6 sm:p-8 rounded-2xl border border-white/10 shadow-2xl relative">
             <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-2xl pointer-events-none" />
             
             {error && (
@@ -196,7 +198,7 @@ function StudentLoginForm() {
               <button
                 onClick={handleGoogleSignIn}
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-3 px-4 py-2.5 border border-slate-700/50 rounded-xl shadow-sm bg-slate-800/50 text-white text-sm font-semibold hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 transition-all"
+                className="w-full flex items-center justify-center gap-3 px-4 py-2.5 border border-white/10 rounded-xl shadow-[0_4px_14px_0_rgba(0,0,0,0.39)] bg-slate-800/80 text-white text-sm font-semibold hover:bg-slate-700 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 transition-all duration-300"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -206,26 +208,14 @@ function StudentLoginForm() {
                 </svg>
                 Continue with Google
               </button>
-              {/* Temporarily disabled since it requires an Apple Developer Account
-              <button
-                onClick={handleAppleSignIn}
-                disabled={loading}
-                className="w-full flex items-center justify-center gap-3 px-4 py-2.5 border border-slate-700/50 rounded-xl shadow-sm bg-slate-800/50 text-white text-sm font-semibold hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 transition-all"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M16.365 21.442c-1.396.953-2.923 1.054-4.274.072-1.362-.996-2.704-1.07-4.143 0-1.503 1.12-2.738.995-4.048-.125-2.87-2.455-5.309-8.472-3.109-12.753 1.161-2.257 3.364-3.565 5.568-3.565 1.488 0 2.871.97 4.144.97 1.295 0 2.836-1.096 4.607-.945 1.954.168 3.634 1.05 4.707 2.527-4.04 2.213-3.344 7.641.838 9.297-1.026 2.571-2.592 5.253-4.29 4.522zm-4.321-16.143c-.156-2.417 1.83-4.532 4.195-4.83.336 2.651-2.124 4.887-4.195 4.83z" />
-                </svg>
-                Continue with Apple
-              </button>
-              */}
             </div>
 
             <div className="relative mb-8 z-10">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-700/50" />
+                <div className="w-full border-t border-white/10" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="bg-slate-900 px-4 text-slate-500 font-medium">Or continue with email</span>
+                <span className="bg-slate-900/80 px-4 text-slate-500 font-medium backdrop-blur-md rounded-full">Or continue with email</span>
               </div>
             </div>
 
@@ -240,7 +230,7 @@ function StudentLoginForm() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full rounded-xl border border-slate-700/50 bg-slate-900/50 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all"
+                  className="block w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all duration-300"
                   placeholder="student@example.com"
                 />
               </div>
@@ -266,7 +256,7 @@ function StudentLoginForm() {
                           setError(err.message || "Failed to send reset email.");
                         }
                       }}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                      className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
                     >
                       Forgot password?
                     </button>
@@ -278,7 +268,7 @@ function StudentLoginForm() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full rounded-xl border border-slate-700/50 bg-slate-900/50 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all"
+                  className="block w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all duration-300"
                   placeholder="••••••••"
                 />
               </div>
@@ -295,7 +285,7 @@ function StudentLoginForm() {
                       required={!isLogin}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="block w-full rounded-xl border border-slate-700/50 bg-slate-900/50 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all"
+                      className="block w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all duration-300"
                       placeholder="••••••••"
                     />
                   </div>
@@ -309,7 +299,7 @@ function StudentLoginForm() {
                       required={!isLogin}
                       value={mobileNumber}
                       onChange={(e) => setMobileNumber(e.target.value)}
-                      className="block w-full rounded-xl border border-slate-700/50 bg-slate-900/50 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all"
+                      className="block w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all duration-300"
                       placeholder="+91 98765 43210"
                     />
                   </div>
@@ -323,7 +313,7 @@ function StudentLoginForm() {
                       required={!isLogin}
                       value={stateLocation}
                       onChange={(e) => setStateLocation(e.target.value)}
-                      className="block w-full rounded-xl border border-slate-700/50 bg-slate-900/50 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all"
+                      className="block w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all duration-300"
                       placeholder="e.g., Tamil Nadu"
                     />
                   </div>
@@ -334,13 +324,12 @@ function StudentLoginForm() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="group relative flex w-full justify-center rounded-xl overflow-hidden py-3 px-4 text-sm font-bold text-white shadow-lg focus:outline-none disabled:opacity-50 transition-all hover:scale-[1.02] active:scale-95"
+                  className="group relative flex w-full justify-center rounded-xl overflow-hidden py-3 px-4 text-sm font-bold text-slate-900 bg-white shadow-[0_0_40px_rgba(255,255,255,0.2)] focus:outline-none disabled:opacity-50 transition-all duration-300 hover:shadow-[0_0_60px_rgba(255,255,255,0.4)] hover:-translate-y-0.5 active:translate-y-0"
                 >
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 bg-[length:200%_100%] animate-shimmer" />
                   <span className="relative flex items-center gap-2">
                     {loading ? (
                       <span className="flex items-center gap-2">
-                        <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                        <svg className="animate-spin h-4 w-4 text-slate-900" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
@@ -375,7 +364,7 @@ function StudentLoginForm() {
                       }
                     }}
                     disabled={loading}
-                    className="mt-3 flex w-full justify-center rounded-xl border border-slate-700 bg-slate-800/50 py-2.5 px-4 text-sm font-medium text-slate-300 shadow-sm focus:outline-none hover:bg-slate-700/50 hover:text-white transition-all disabled:opacity-50"
+                    className="mt-3 flex w-full justify-center rounded-xl border border-white/10 bg-white/5 py-2.5 px-4 text-sm font-semibold text-slate-300 shadow-sm focus:outline-none hover:bg-white/10 hover:text-white transition-all duration-300 disabled:opacity-50 backdrop-blur-md"
                   >
                     Email me a magic link instead
                   </button>
@@ -386,7 +375,7 @@ function StudentLoginForm() {
             <div className="mt-8 text-center relative z-10">
               <button
                 onClick={() => setIsLogin(!isLogin)}
-                className="text-sm text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+                className="text-sm text-indigo-400 hover:text-indigo-300 font-bold transition-colors"
               >
                 {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
               </button>
@@ -394,7 +383,7 @@ function StudentLoginForm() {
           </div>
         </div>
       </div>
-    </div>
+    </FadeInUp>
   );
 }
 

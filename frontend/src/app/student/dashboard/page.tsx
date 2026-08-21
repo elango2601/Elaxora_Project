@@ -6,6 +6,8 @@ import Link from "next/link";
 import { auth, db } from "@/lib/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface DashboardData {
   profile: { name: string; email: string; college: string; };
@@ -93,48 +95,62 @@ export default function StudentDashboard() {
   if (!data) return null;
 
   return (
-    <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl space-y-8">
+    <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8 relative isolate">
+      {/* Premium Background Glows */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px] pointer-events-none -z-10" />
+
+      <FadeInUp className="mx-auto max-w-5xl space-y-8">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-card p-6 border border-card-border rounded-2xl">
-          <div>
-            <h1 className="text-2xl font-extrabold text-white">Welcome back, {data.profile.name.split(" ")[0]}!</h1>
-            <p className="text-sm text-slate-400 mt-1">{data.profile.email} • {data.profile.college}</p>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/5 backdrop-blur-xl p-6 sm:p-8 border border-white/10 rounded-3xl shadow-2xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <h1 className="text-3xl font-extrabold text-white tracking-tight">Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">{data.profile.name.split(" ")[0]}</span>!</h1>
+            <p className="text-sm text-slate-300 mt-2 font-medium">{data.profile.email} • {data.profile.college}</p>
           </div>
           <button 
             onClick={handleLogout}
-            className="rounded-lg bg-slate-800 hover:bg-slate-700 px-4 py-2 text-xs font-bold text-white transition-colors"
+            className="relative z-10 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-white/10 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:-translate-y-0.5 active:translate-y-0"
           >
             Sign Out
           </button>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex space-x-2 border-b border-card-border pb-px overflow-x-auto no-scrollbar">
+        <div className="flex space-x-2 border-b border-white/10 pb-px overflow-x-auto no-scrollbar relative">
           <button
             onClick={() => setActiveTab("orders")}
-            className={`px-4 py-2.5 text-sm font-bold whitespace-nowrap border-b-2 transition-colors ${
-              activeTab === "orders" ? "border-indigo-500 text-indigo-400" : "border-transparent text-slate-400 hover:text-slate-300"
+            className={`relative px-4 py-3 text-sm font-bold whitespace-nowrap transition-colors ${
+              activeTab === "orders" ? "text-indigo-400" : "text-slate-400 hover:text-slate-200"
             }`}
           >
             Live Projects ({data.orders.length})
+            {activeTab === "orders" && (
+              <motion.div layoutId="dashboard-tab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-500" />
+            )}
           </button>
           <button
             onClick={() => setActiveTab("quotes")}
-            className={`px-4 py-2.5 text-sm font-bold whitespace-nowrap border-b-2 transition-colors ${
-              activeTab === "quotes" ? "border-indigo-500 text-indigo-400" : "border-transparent text-slate-400 hover:text-slate-300"
+            className={`relative px-4 py-3 text-sm font-bold whitespace-nowrap transition-colors ${
+              activeTab === "quotes" ? "text-indigo-400" : "text-slate-400 hover:text-slate-200"
             }`}
           >
             Quotations ({data.quotes.length})
+            {activeTab === "quotes" && (
+              <motion.div layoutId="dashboard-tab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-500" />
+            )}
           </button>
           <button
             onClick={() => setActiveTab("enquiries")}
-            className={`px-4 py-2.5 text-sm font-bold whitespace-nowrap border-b-2 transition-colors ${
-              activeTab === "enquiries" ? "border-indigo-500 text-indigo-400" : "border-transparent text-slate-400 hover:text-slate-300"
+            className={`relative px-4 py-3 text-sm font-bold whitespace-nowrap transition-colors ${
+              activeTab === "enquiries" ? "text-indigo-400" : "text-slate-400 hover:text-slate-200"
             }`}
           >
             My Enquiries ({data.enquiries.length})
+            {activeTab === "enquiries" && (
+              <motion.div layoutId="dashboard-tab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-500" />
+            )}
           </button>
         </div>
 
@@ -274,7 +290,7 @@ export default function StudentDashboard() {
           )}
 
         </div>
-      </div>
+      </FadeInUp>
     </div>
   );
 }

@@ -344,7 +344,7 @@ export default function AdminEnquiriesPage() {
                     <div>
                       <span className="text-[10px] text-slate-500 block">Academic Details</span>
                       <span className="text-white font-semibold">
-                        {selectedEnquiry.college_name || "N/A"} • {selectedEnquiry.department || "N/A"} • {selectedEnquiry.year_of_study || "N/A"}
+                        {selectedEnquiry.college_name || "N/A"} • {selectedEnquiry.department || "N/A"} • {selectedEnquiry.year || "N/A"}
                       </span>
                     </div>
                     <div>
@@ -364,7 +364,7 @@ export default function AdminEnquiriesPage() {
                     <div>
                       <span className="text-[10px] text-slate-500 block">Requirements</span>
                       <span className="text-white font-semibold">
-                        Demo Needed: {selectedEnquiry.demo_required ? "Yes" : "No"} • Deployment: {selectedEnquiry.deployment_required ? "Yes" : "No"}
+                        Demo Needed: {selectedEnquiry.demo_video_required ? "Yes" : "No"} • Deployment: {selectedEnquiry.deployment_required ? "Yes" : "No"}
                       </span>
                     </div>
                     {selectedEnquiry.referral_code && (
