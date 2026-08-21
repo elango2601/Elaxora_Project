@@ -206,6 +206,7 @@ function StudentLoginForm() {
                 </svg>
                 Continue with Google
               </button>
+              {/* Temporarily disabled since it requires an Apple Developer Account
               <button
                 onClick={handleAppleSignIn}
                 disabled={loading}
@@ -216,6 +217,7 @@ function StudentLoginForm() {
                 </svg>
                 Continue with Apple
               </button>
+              */}
             </div>
 
             <div className="relative mb-8 z-10">
