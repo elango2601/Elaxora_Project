@@ -92,9 +92,9 @@ export default function Footer() {
         </div>
 
         {/* Copy block */}
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} Elaxora Solutions. All rights reserved.</p>
-          <p className="mt-2 md:mt-0 text-slate-600">
+        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+          <p>© {new Date().getFullYear()} Elaxora Solutions. All rights reserved. <br className="md:hidden" /> <span className="hidden md:inline">|</span> Designed by Elango K</p>
+          <p className="text-slate-600 max-w-2xl text-right">
             Important Note: We encourage conceptual understanding. We provide learning support to prepare you for presentation.
           </p>
         </div>

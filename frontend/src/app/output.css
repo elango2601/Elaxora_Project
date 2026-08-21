@@ -1400,6 +1400,9 @@
   .text-left {
     text-align: left;
   }
+  .text-right {
+    text-align: right;
+  }
   .font-mono {
     font-family: var(--font-mono);
   }
@@ -2088,6 +2091,9 @@
     }
     .md\:hidden {
       display: none;
+    }
+    .md\:inline {
+      display: inline;
     }
     .md\:h-screen {
       height: 100vh;
