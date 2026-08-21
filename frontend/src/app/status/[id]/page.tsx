@@ -320,7 +320,7 @@ export default function StudentProjectStatus() {
                       required
                       value={crDesc}
                       onChange={(e) => setCrDesc(e.target.value)}
-                      placeholder="e.g. Add an automated Excel reports export option"
+
                       className="w-full rounded bg-slate-950 border border-white/5 px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none"
                     />
                   </div>
@@ -330,7 +330,7 @@ export default function StudentProjectStatus() {
                       required
                       value={crReason}
                       onChange={(e) => setCrReason(e.target.value)}
-                      placeholder="e.g. University guide requested this to compare predictions visually."
+
                       rows={2}
                       className="w-full rounded bg-slate-950 border border-white/5 px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none"
                     />

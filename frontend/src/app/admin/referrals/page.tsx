@@ -146,7 +146,7 @@ export default function AdminReferralsPage() {
                     required
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
-                    placeholder="e.g. ARUN10"
+
                     className="w-full rounded bg-slate-900 border border-white/5 px-3 py-2 text-white placeholder-slate-600 focus:outline-none"
                   />
                 </div>
@@ -168,7 +168,7 @@ export default function AdminReferralsPage() {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Arun Kumar"
+
                     className="w-full rounded bg-slate-900 border border-white/5 px-3 py-2 text-white placeholder-slate-600 focus:outline-none"
                   />
                 </div>
@@ -179,7 +179,7 @@ export default function AdminReferralsPage() {
                     required
                     value={contact}
                     onChange={(e) => setContact(e.target.value)}
-                    placeholder="e.g. arunkumar@youtube or email"
+
                     className="w-full rounded bg-slate-900 border border-white/5 px-3 py-2 text-white placeholder-slate-600 focus:outline-none"
                   />
                 </div>
@@ -192,7 +192,7 @@ export default function AdminReferralsPage() {
                       required
                       value={college}
                       onChange={(e) => setCollege(e.target.value)}
-                      placeholder="e.g. SRM University"
+
                       className="w-full rounded bg-slate-900 border border-white/5 px-3 py-2 text-white placeholder-slate-600 focus:outline-none"
                     />
                   </div>

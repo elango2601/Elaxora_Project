@@ -165,7 +165,7 @@ export default function AdminSettingsPage() {
                     required
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    placeholder="••••••••"
+
                     className="w-full rounded-lg bg-slate-900 border border-card-border px-3.5 py-2 text-foreground focus:outline-none"
                   />
                 </div>
@@ -177,7 +177,7 @@ export default function AdminSettingsPage() {
                       required
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="••••••••"
+
                       className="w-full rounded-lg bg-slate-900 border border-card-border px-3.5 py-2 text-foreground focus:outline-none"
                     />
                   </div>
@@ -188,7 +188,7 @@ export default function AdminSettingsPage() {
                       required
                       value={verifyPassword}
                       onChange={(e) => setVerifyPassword(e.target.value)}
-                      placeholder="••••••••"
+
                       className="w-full rounded-lg bg-slate-900 border border-card-border px-3.5 py-2 text-foreground focus:outline-none"
                     />
                   </div>

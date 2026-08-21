@@ -96,7 +96,7 @@ export default function ContactPage() {
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="Your Name"
+
                       className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50"
                     />
                   </div>
@@ -109,7 +109,7 @@ export default function ContactPage() {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="name@email.com"
+
                       className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50"
                     />
                   </div>
@@ -139,7 +139,7 @@ export default function ContactPage() {
                     required
                     value={msg}
                     onChange={(e) => setMsg(e.target.value)}
-                    placeholder="Briefly describe what you'd like to discuss..."
+
                     rows={4}
                     className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50"
                   />

@@ -304,7 +304,7 @@ export default function StudentQuoteView() {
                       required
                       value={feedback}
                       onChange={(e) => setFeedback(e.target.value)}
-                      placeholder="e.g. Please change MySQL to MongoDB, or lower the customized add-ons."
+
                       rows={3}
                       className="w-full rounded-lg bg-slate-900 border border-white/5 px-2.5 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
                     />

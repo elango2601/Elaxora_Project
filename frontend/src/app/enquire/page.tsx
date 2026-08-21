@@ -275,7 +275,7 @@ function EnquiryFormContent() {
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="John Doe"
+
                   className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
                 />
               </div>
@@ -288,7 +288,7 @@ function EnquiryFormContent() {
                   required
                   value={email}
                   disabled onChange={(e) => setEmail(e.target.value)}
-                  placeholder="john@college.edu"
+
                   className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
                 />
               </div>
@@ -301,7 +301,7 @@ function EnquiryFormContent() {
                   required
                   value={whatsapp}
                   onChange={(e) => setWhatsapp(e.target.value)}
-                  placeholder="+91 XXXXX XXXXX"
+
                   className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
                 />
               </div>
@@ -314,7 +314,7 @@ function EnquiryFormContent() {
                   required
                   value={college}
                   onChange={(e) => setCollege(e.target.value)}
-                  placeholder="e.g. PSG Tech, Delhi University"
+
                   className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
                 />
               </div>
@@ -386,7 +386,7 @@ function EnquiryFormContent() {
                   type="text"
                   value={prefTech}
                   onChange={(e) => setPrefTech(e.target.value)}
-                  placeholder="e.g. Python, Next.js, MERN, React Native"
+
                   className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
                 />
               </div>
@@ -447,7 +447,7 @@ function EnquiryFormContent() {
                 <textarea
                   value={addRequirements}
                   onChange={(e) => setAddRequirements(e.target.value)}
-                  placeholder="Detail any changes, custom modules, API rules requested by your supervisor guide."
+
                   rows={3}
                   className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
                 />
@@ -474,7 +474,7 @@ function EnquiryFormContent() {
                     setReferral(e.target.value);
                     setRefValData(null); // Reset validation data on change
                   }}
-                  placeholder="e.g. ARUN10"
+
                   className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
                 />
               </div>
@@ -510,7 +510,7 @@ function EnquiryFormContent() {
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Include details about university formats or special questions."
+
                 rows={2}
                 className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
               />

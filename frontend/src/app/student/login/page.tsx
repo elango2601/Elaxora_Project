@@ -231,7 +231,7 @@ function StudentLoginForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all duration-300"
-                  placeholder="student@example.com"
+
                 />
               </div>
 
@@ -269,7 +269,7 @@ function StudentLoginForm() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="block w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all duration-300"
-                  placeholder="••••••••"
+
                 />
               </div>
 
@@ -286,7 +286,7 @@ function StudentLoginForm() {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       className="block w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all duration-300"
-                      placeholder="••••••••"
+
                     />
                   </div>
                   <div>
@@ -300,7 +300,7 @@ function StudentLoginForm() {
                       value={mobileNumber}
                       onChange={(e) => setMobileNumber(e.target.value)}
                       className="block w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all duration-300"
-                      placeholder="+91 98765 43210"
+
                     />
                   </div>
                   <div>
@@ -314,7 +314,7 @@ function StudentLoginForm() {
                       value={stateLocation}
                       onChange={(e) => setStateLocation(e.target.value)}
                       className="block w-full rounded-xl border border-white/10 bg-black/20 px-4 py-2.5 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all duration-300"
-                      placeholder="e.g., Tamil Nadu"
+
                     />
                   </div>
                 </>

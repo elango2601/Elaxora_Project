@@ -93,7 +93,7 @@ export default function AdminCustomersPage() {
         <div className="glass-card p-4">
           <input
             type="text"
-            placeholder="Search by student name, college, or email..."
+
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full sm:w-96 rounded-lg bg-slate-900 border border-card-border px-3.5 py-2 text-xs text-foreground placeholder-muted focus:outline-none focus:border-indigo-500/50"

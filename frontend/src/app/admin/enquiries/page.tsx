@@ -417,7 +417,7 @@ export default function AdminEnquiriesPage() {
                         type="text"
                         value={newNote}
                         onChange={(e) => setNewNote(e.target.value)}
-                        placeholder="Log student call remarks..."
+
                         className="flex-grow rounded bg-slate-950 border border-white/5 px-2.5 py-1 text-[10px] text-white"
                       />
                       <button

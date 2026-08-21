@@ -80,7 +80,7 @@ export default function AdminQuotesPage() {
         <div className="glass-card p-4 flex flex-col sm:flex-row gap-4 items-center justify-between">
           <input
             type="text"
-            placeholder="Search by Quote ID or Enquiry ID..."
+
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full sm:w-72 rounded-lg bg-slate-900 border border-card-border px-3.5 py-2 text-xs text-foreground placeholder-muted focus:outline-none focus:border-indigo-500/50"

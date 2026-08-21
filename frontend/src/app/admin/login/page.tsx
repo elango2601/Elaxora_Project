@@ -82,7 +82,7 @@ export default function AdminLogin() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-full pl-10 rounded-xl border border-slate-700/50 bg-slate-900/80 px-4 py-3 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all"
-                  placeholder="admin@elaxora.com"
+
                 />
               </div>
             </div>
@@ -104,7 +104,7 @@ export default function AdminLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="block w-full pl-10 rounded-xl border border-slate-700/50 bg-slate-900/80 px-4 py-3 text-white placeholder-slate-500 focus:border-indigo-500 focus:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm transition-all"
-                  placeholder="••••••••"
+
                 />
               </div>
             </div>

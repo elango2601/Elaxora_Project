@@ -209,7 +209,7 @@ export default function AdminProjectsPage() {
                     required
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="e.g. AI Resume Analyzer"
+
                     className="w-full rounded bg-slate-900 border border-white/5 px-3 py-2 text-white placeholder-slate-600 focus:outline-none"
                   />
                 </div>
@@ -220,7 +220,7 @@ export default function AdminProjectsPage() {
                     required
                     value={slug}
                     onChange={(e) => setSlug(e.target.value)}
-                    placeholder="e.g. ai-resume-analyzer"
+
                     className="w-full rounded bg-slate-900 border border-white/5 px-3 py-2 text-white placeholder-slate-600 focus:outline-none"
                   />
                 </div>
@@ -284,7 +284,7 @@ export default function AdminProjectsPage() {
                     required
                     value={techString}
                     onChange={(e) => setTechString(e.target.value)}
-                    placeholder="Python, FastAPI, Next.js, MongoDB"
+
                     className="w-full rounded bg-slate-900 border border-white/5 px-3 py-2 text-white placeholder-slate-600 focus:outline-none"
                   />
                 </div>
@@ -295,7 +295,7 @@ export default function AdminProjectsPage() {
                     required
                     value={shortDesc}
                     onChange={(e) => setShortDesc(e.target.value)}
-                    placeholder="Brief 1-sentence catalog text..."
+
                     className="w-full rounded bg-slate-900 border border-white/5 px-3 py-2 text-white placeholder-slate-600"
                   />
                 </div>
@@ -332,7 +332,7 @@ export default function AdminProjectsPage() {
                     value={featuresString}
                     onChange={(e) => setFeaturesString(e.target.value)}
                     rows={4}
-                    placeholder="- Resume Parser&#10;- NLP Model Inference&#10;- Dashboard metrics"
+
                     className="w-full rounded bg-slate-900 border border-white/5 p-2 text-white"
                   />
                 </div>

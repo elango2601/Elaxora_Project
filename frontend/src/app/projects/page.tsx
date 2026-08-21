@@ -152,7 +152,7 @@ export default function ProjectsCatalog() {
         <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-2">Search Catalog</label>
         <input
           type="text"
-          placeholder="Title, tech, keyword..."
+
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full rounded-lg bg-slate-900 border border-card-border px-3.5 py-2.5 text-xs text-foreground placeholder-muted focus:outline-none focus:border-indigo-500/50"

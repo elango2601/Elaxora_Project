@@ -448,7 +448,7 @@ export default function AdminOrdersPage() {
                       type="text"
                       value={payNotes}
                       onChange={(e) => setPayNotes(e.target.value)}
-                      placeholder="e.g. Paid UPI transaction ID: 6271927"
+
                       className="w-full rounded bg-slate-900 border border-white/5 px-2 py-1 text-xs text-white"
                     />
                   </div>
