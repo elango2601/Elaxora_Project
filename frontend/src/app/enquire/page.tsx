@@ -69,14 +69,11 @@ function EnquiryFormContent() {
     loadProjectOptions();
   }, []);
 
-  // Client-side authentication enforcement
+  // Client-side authentication observation (Optional: auto-fill user data)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        // If not logged in, immediately redirect them
-        window.location.href = "/student/login?redirect=" + encodeURIComponent(window.location.pathname + window.location.search);
-      } else {
-        // Pre-fill user data
+      if (user) {
+        // Pre-fill user data if they happen to be logged in
         if (user.email) setEmail(user.email);
         if (user.displayName) setFullName(user.displayName);
       }
