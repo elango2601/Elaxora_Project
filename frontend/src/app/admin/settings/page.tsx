@@ -14,7 +14,7 @@ export default function AdminSettingsPage() {
   const [verifyPassword, setVerifyPassword] = useState("");
 
   const [businessName, setBusinessName] = useState("Elaxora Solutions");
-  const [supportEmail, setSupportEmail] = useState("support@elaxorasolutions.com");
+  const [supportEmail, setSupportEmail] = useState("elaxora11@gmail.com");
   const [supportWhatsapp, setSupportWhatsapp] = useState("+919999999999");
   
   const [defaultCommission, setDefaultCommission] = useState("10");

@@ -86,7 +86,7 @@ export default function Footer() {
             </ul>
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-2">Support</h3>
             <p className="text-sm text-slate-400">
-              Email: support@elaxorasolutions.in
+              Email: elaxora11@gmail.com
             </p>
           </div>
         </div>
