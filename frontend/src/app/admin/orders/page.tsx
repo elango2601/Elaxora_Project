@@ -394,7 +394,7 @@ export default function AdminOrdersPage() {
                     </div>
                     <div>
                       <label className="block text-slate-500 mb-1">Percent Completed ({progressPercent}%)</label>
-                      <input
+                      <input placeholder="Enter Progress Percent"
                         type="range"
                         min="0"
                         max="100"
@@ -437,7 +437,7 @@ export default function AdminOrdersPage() {
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <div>
                       <label className="block text-slate-500 mb-1">Amount Paid (₹)</label>
-                      <input
+                      <input placeholder="Enter Pay Amount"
                         type="number"
                         required
                         value={payAmount}
@@ -461,7 +461,7 @@ export default function AdminOrdersPage() {
                   </div>
                   <div>
                     <label className="block text-[10px] text-slate-500 mb-1">Receipt Notes / Tx ID</label>
-                    <input
+                    <input placeholder="Enter Pay Notes"
                       type="text"
                       value={payNotes}
                       onChange={(e) => setPayNotes(e.target.value)}
@@ -514,7 +514,7 @@ export default function AdminOrdersPage() {
                               <div className="grid grid-cols-2 gap-2 text-[10px]">
                                 <div>
                                   <label className="block text-slate-500 mb-1">Additional Cost (₹)</label>
-                                  <input
+                                  <input placeholder="Enter Cr Cost"
                                     type="number"
                                     value={crCost}
                                     onChange={(e) => setCrCost(e.target.value)}
@@ -523,7 +523,7 @@ export default function AdminOrdersPage() {
                                 </div>
                                 <div>
                                   <label className="block text-slate-500 mb-1">Est. Extra Time</label>
-                                  <input
+                                  <input placeholder="Enter Cr Timeline"
                                     type="text"
                                     value={crTimeline}
                                     onChange={(e) => setCrTimeline(e.target.value)}

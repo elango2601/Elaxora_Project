@@ -315,7 +315,7 @@ export default function StudentProjectStatus() {
                 <div className="space-y-3">
                   <div>
                     <label className="block text-[10px] text-slate-400 mb-1">Feature Description *</label>
-                    <input
+                    <input placeholder="Enter Cr Desc"
                       type="text"
                       required
                       value={crDesc}
@@ -326,7 +326,7 @@ export default function StudentProjectStatus() {
                   </div>
                   <div>
                     <label className="block text-[10px] text-slate-400 mb-1">Reason for change / Guide demand *</label>
-                    <textarea
+                    <textarea placeholder="Enter Cr Reason"
                       required
                       value={crReason}
                       onChange={(e) => setCrReason(e.target.value)}

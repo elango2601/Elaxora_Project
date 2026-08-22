@@ -91,7 +91,7 @@ export default function ContactPage() {
                     <label className="block text-xs font-semibold text-slate-400 mb-1.5">
                       Name *
                     </label>
-                    <input
+                    <input placeholder="Enter Name"
                       type="text"
                       required
                       value={name}
@@ -104,7 +104,7 @@ export default function ContactPage() {
                     <label className="block text-xs font-semibold text-slate-400 mb-1.5">
                       Email Address *
                     </label>
-                    <input
+                    <input placeholder="Enter Email"
                       type="email"
                       required
                       value={email}
@@ -135,7 +135,7 @@ export default function ContactPage() {
                   <label className="block text-xs font-semibold text-slate-400 mb-1.5">
                     Message Body *
                   </label>
-                  <textarea
+                  <textarea placeholder="Enter Message"
                     required
                     value={msg}
                     onChange={(e) => setMsg(e.target.value)}

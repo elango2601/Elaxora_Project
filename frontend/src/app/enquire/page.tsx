@@ -270,7 +270,7 @@ function EnquiryFormContent() {
                 <label className="block text-xs font-semibold text-slate-400 mb-1.5">
                   Full Name *
                 </label>
-                <input
+                <input placeholder="Enter Full Name"
                   type="text"
                   required
                   value={fullName}
@@ -283,7 +283,7 @@ function EnquiryFormContent() {
                 <label className="block text-xs font-semibold text-slate-400 mb-1.5">
                   Email Address *
                 </label>
-                <input
+                <input placeholder="Enter Email"
                   type="email"
                   required
                   value={email}
@@ -296,7 +296,7 @@ function EnquiryFormContent() {
                 <label className="block text-xs font-semibold text-slate-400 mb-1.5">
                   WhatsApp Number *
                 </label>
-                <input
+                <input placeholder="Enter Mobile Number"
                   type="tel"
                   required
                   value={whatsapp}
@@ -309,7 +309,7 @@ function EnquiryFormContent() {
                 <label className="block text-xs font-semibold text-slate-400 mb-1.5">
                   College Name *
                 </label>
-                <input
+                <input placeholder="Enter College"
                   type="text"
                   required
                   value={college}
@@ -382,7 +382,7 @@ function EnquiryFormContent() {
                 <label className="block text-xs font-semibold text-slate-400 mb-1.5">
                   Preferred Technologies / Stack
                 </label>
-                <input
+                <input placeholder="Enter Preferred Technology"
                   type="text"
                   value={prefTech}
                   onChange={(e) => setPrefTech(e.target.value)}
@@ -444,7 +444,7 @@ function EnquiryFormContent() {
                 <label className="block text-xs font-semibold text-slate-400 mb-1.5">
                   Custom Customization Rules / Syllabus Guidelines
                 </label>
-                <textarea
+                <textarea placeholder="Enter Add Requirements"
                   value={addRequirements}
                   onChange={(e) => setAddRequirements(e.target.value)}
 
@@ -467,7 +467,7 @@ function EnquiryFormContent() {
                 <label className="block text-xs font-semibold text-slate-400 mb-1.5">
                   Referral / Influencer Promo Code
                 </label>
-                <input
+                <input placeholder="Enter Referral"
                   type="text"
                   value={referral}
                   onChange={(e) => {
@@ -507,7 +507,7 @@ function EnquiryFormContent() {
               <label className="block text-xs font-semibold text-slate-400 mb-1.5">
                 Remarks / Personal Message
               </label>
-              <textarea
+              <textarea placeholder="Enter Message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
 

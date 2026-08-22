@@ -300,7 +300,7 @@ export default function StudentQuoteView() {
                     <label className="block text-[10px] font-bold text-slate-400 uppercase">
                       Describe Requested Changes
                     </label>
-                    <textarea
+                    <textarea placeholder="Enter Feedback"
                       required
                       value={feedback}
                       onChange={(e) => setFeedback(e.target.value)}

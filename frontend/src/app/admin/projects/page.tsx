@@ -221,7 +221,7 @@ export default function AdminProjectsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-slate-500 mb-1 font-semibold">Project Title *</label>
-                  <input
+                  <input placeholder="Enter Title"
                     type="text"
                     required
                     value={title}
@@ -232,7 +232,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div>
                   <label className="block text-slate-500 mb-1 font-semibold">Url Slug *</label>
-                  <input
+                  <input placeholder="Enter Slug"
                     type="text"
                     required
                     value={slug}
@@ -286,7 +286,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div>
                   <label className="block text-slate-500 mb-1 font-semibold">Starting Price (₹) *</label>
-                  <input
+                  <input placeholder="Enter Starting Price"
                     type="number"
                     required
                     value={startingPrice}
@@ -296,7 +296,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-slate-500 mb-1 font-semibold">Technologies (comma separated) *</label>
-                  <input
+                  <input placeholder="Enter Tech String"
                     type="text"
                     required
                     value={techString}
@@ -307,7 +307,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-slate-500 mb-1 font-semibold">Short Description *</label>
-                  <input
+                  <input placeholder="Enter Short Desc"
                     type="text"
                     required
                     value={shortDesc}
@@ -318,7 +318,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-slate-500 mb-1 font-semibold">Detailed Description</label>
-                  <textarea
+                  <textarea placeholder="Enter Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={4}
@@ -327,7 +327,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div>
                   <label className="block text-slate-500 mb-1 font-semibold">Problem Statement</label>
-                  <textarea
+                  <textarea placeholder="Enter Problem Statement"
                     value={problemStatement}
                     onChange={(e) => setProblemStatement(e.target.value)}
                     rows={3}
@@ -336,7 +336,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div>
                   <label className="block text-slate-500 mb-1 font-semibold">Proposed Solution</label>
-                  <textarea
+                  <textarea placeholder="Enter Proposed Solution"
                     value={proposedSolution}
                     onChange={(e) => setProposedSolution(e.target.value)}
                     rows={3}
@@ -345,7 +345,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-slate-500 mb-1 font-semibold">Features list (one per line)</label>
-                  <textarea
+                  <textarea placeholder="Enter Features String"
                     value={featuresString}
                     onChange={(e) => setFeaturesString(e.target.value)}
                     rows={4}
@@ -355,7 +355,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-slate-500 mb-1.5 font-semibold">Architecture Description</label>
-                  <input
+                  <input placeholder="Enter Architecture"
                     type="text"
                     value={architecture}
                     onChange={(e) => setArchitecture(e.target.value)}
@@ -364,7 +364,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div>
                   <label className="block text-slate-500 mb-1.5 font-semibold">SEO Title</label>
-                  <input
+                  <input placeholder="Enter Seo Title"
                     type="text"
                     value={seoTitle}
                     onChange={(e) => setSeoTitle(e.target.value)}
@@ -373,7 +373,7 @@ export default function AdminProjectsPage() {
                 </div>
                 <div>
                   <label className="block text-slate-500 mb-1.5 font-semibold">SEO Meta Description</label>
-                  <input
+                  <input placeholder="Enter Seo Meta"
                     type="text"
                     value={seoMeta}
                     onChange={(e) => setSeoMeta(e.target.value)}

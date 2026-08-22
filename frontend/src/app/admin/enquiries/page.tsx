@@ -430,7 +430,7 @@ export default function AdminEnquiriesPage() {
                       </div>
                     )}
                     <form onSubmit={handleAddNote} className="flex gap-2">
-                      <input
+                      <input placeholder="Enter New Note"
                         type="text"
                         value={newNote}
                         onChange={(e) => setNewNote(e.target.value)}
@@ -468,7 +468,7 @@ export default function AdminEnquiriesPage() {
                           <div className="grid grid-cols-2 gap-2 text-[10px]">
                             <div>
                               <label className="block text-slate-500 mb-1">Base Price (₹)</label>
-                              <input
+                              <input placeholder="Enter Base Price"
                                 type="number"
                                 value={basePrice}
                                 onChange={(e) => setBasePrice(e.target.value)}
@@ -477,7 +477,7 @@ export default function AdminEnquiriesPage() {
                             </div>
                             <div>
                               <label className="block text-slate-500 mb-1">Custom Addons (₹)</label>
-                              <input
+                              <input placeholder="Enter Custom Price"
                                 type="number"
                                 value={customPrice}
                                 onChange={(e) => setCustomPrice(e.target.value)}
@@ -486,7 +486,7 @@ export default function AdminEnquiriesPage() {
                             </div>
                             <div>
                               <label className="block text-slate-500 mb-1">Deployment Price (₹)</label>
-                              <input
+                              <input placeholder="Enter Deploy Price"
                                 type="number"
                                 value={deployPrice}
                                 onChange={(e) => setDeployPrice(e.target.value)}
@@ -495,7 +495,7 @@ export default function AdminEnquiriesPage() {
                             </div>
                             <div>
                               <label className="block text-slate-500 mb-1">Doc & PPT Price (₹)</label>
-                              <input
+                              <input placeholder="Enter Doc Price"
                                 type="number"
                                 value={docPrice}
                                 onChange={(e) => setDocPrice(e.target.value)}
@@ -504,7 +504,7 @@ export default function AdminEnquiriesPage() {
                             </div>
                             <div>
                               <label className="block text-slate-500 mb-1">Promo Discount (₹)</label>
-                              <input
+                              <input placeholder="Enter Discount Price"
                                 type="number"
                                 value={discountPrice}
                                 onChange={(e) => setDiscountPrice(e.target.value)}
@@ -513,7 +513,7 @@ export default function AdminEnquiriesPage() {
                             </div>
                             <div>
                               <label className="block text-slate-500 mb-1">Est. Delivery</label>
-                              <input
+                              <input placeholder="Enter Est Delivery"
                                 type="text"
                                 value={estDelivery}
                                 onChange={(e) => setEstDelivery(e.target.value)}
@@ -524,7 +524,7 @@ export default function AdminEnquiriesPage() {
 
                           <div>
                             <label className="block text-[10px] text-slate-500 mb-1">Scope description</label>
-                            <textarea
+                            <textarea placeholder="Enter Scope Of Work"
                               value={scopeOfWork}
                               onChange={(e) => setScopeOfWork(e.target.value)}
                               rows={3}

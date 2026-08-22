@@ -111,7 +111,7 @@ export default function AdminPaymentsPage() {
 
         {/* Filters */}
         <div className="glass-card p-4 flex flex-col sm:flex-row gap-4 items-center justify-between">
-          <input
+          <input placeholder="Enter Search"
             type="text"
 
             value={search}

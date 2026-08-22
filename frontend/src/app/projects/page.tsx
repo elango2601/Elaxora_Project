@@ -150,7 +150,7 @@ export default function ProjectsCatalog() {
       {/* Live Search */}
       <div>
         <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-2">Search Catalog</label>
-        <input
+        <input placeholder="Enter Search"
           type="text"
 
           value={search}

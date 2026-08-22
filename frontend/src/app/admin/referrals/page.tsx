@@ -158,7 +158,7 @@ export default function AdminReferralsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-slate-500 mb-1.5 font-semibold">Referral Code *</label>
-                  <input
+                  <input placeholder="Enter Code"
                     type="text"
                     required
                     value={code}
@@ -180,7 +180,7 @@ export default function AdminReferralsPage() {
                 </div>
                 <div>
                   <label className="block text-slate-500 mb-1.5 font-semibold">Promo Partner Name *</label>
-                  <input
+                  <input placeholder="Enter Name"
                     type="text"
                     required
                     value={name}
@@ -191,7 +191,7 @@ export default function AdminReferralsPage() {
                 </div>
                 <div>
                   <label className="block text-slate-500 mb-1.5 font-semibold">Contact Handle *</label>
-                  <input
+                  <input placeholder="Enter Contact"
                     type="text"
                     required
                     value={contact}
@@ -204,7 +204,7 @@ export default function AdminReferralsPage() {
                 {refType === "Ambassador" && (
                   <div className="sm:col-span-2">
                     <label className="block text-slate-500 mb-1.5 font-semibold">College Name *</label>
-                    <input
+                    <input placeholder="Enter College"
                       type="text"
                       required
                       value={college}
@@ -217,7 +217,7 @@ export default function AdminReferralsPage() {
 
                 <div>
                   <label className="block text-slate-500 mb-1.5 font-semibold">Student Discount (%)</label>
-                  <input
+                  <input placeholder="Enter Discount Percent"
                     type="number"
                     value={discountPercent}
                     onChange={(e) => setDiscountPercent(e.target.value)}
@@ -226,7 +226,7 @@ export default function AdminReferralsPage() {
                 </div>
                 <div>
                   <label className="block text-slate-500 mb-1.5 font-semibold">Partner Commission (%)</label>
-                  <input
+                  <input placeholder="Enter Commission Percent"
                     type="number"
                     value={commissionPercent}
                     onChange={(e) => setCommissionPercent(e.target.value)}

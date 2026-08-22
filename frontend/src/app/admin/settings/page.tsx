@@ -79,7 +79,7 @@ export default function AdminSettingsPage() {
             <form onSubmit={handleSaveConfig} className="space-y-4 text-xs">
               <div>
                 <label className="block text-slate-400 mb-1.5 font-semibold">Corporate Brand Name</label>
-                <input
+                <input placeholder="Enter Business Name"
                   type="text"
                   value={businessName}
                   onChange={(e) => setBusinessName(e.target.value)}
@@ -89,7 +89,7 @@ export default function AdminSettingsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-slate-400 mb-1.5 font-semibold">Public Support Email</label>
-                  <input
+                  <input placeholder="Enter Support Email"
                     type="email"
                     value={supportEmail}
                     onChange={(e) => setSupportEmail(e.target.value)}
@@ -98,7 +98,7 @@ export default function AdminSettingsPage() {
                 </div>
                 <div>
                   <label className="block text-slate-400 mb-1.5 font-semibold">WhatsApp Hotlink Number</label>
-                  <input
+                  <input placeholder="Enter Support Whatsapp"
                     type="text"
                     value={supportWhatsapp}
                     onChange={(e) => setSupportWhatsapp(e.target.value)}
@@ -112,7 +112,7 @@ export default function AdminSettingsPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-slate-400 mb-1.5">Referral Commission (%)</label>
-                    <input
+                    <input placeholder="Enter Default Commission"
                       type="number"
                       value={defaultCommission}
                       onChange={(e) => setDefaultCommission(e.target.value)}
@@ -121,7 +121,7 @@ export default function AdminSettingsPage() {
                   </div>
                   <div>
                     <label className="block text-slate-400 mb-1.5">Student Discount (%)</label>
-                    <input
+                    <input placeholder="Enter Default Discount"
                       type="number"
                       value={defaultDiscount}
                       onChange={(e) => setDefaultDiscount(e.target.value)}
@@ -148,7 +148,7 @@ export default function AdminSettingsPage() {
             <form onSubmit={handleSavePassword} className="space-y-4 text-xs">
               <div>
                 <label className="block text-slate-400 mb-1.5">Registered Admin Email</label>
-                <input
+                <input placeholder="Enter Admin Email"
                   type="text"
                   disabled
                   value={adminEmail}
@@ -160,7 +160,7 @@ export default function AdminSettingsPage() {
                 <h4 className="text-[10px] font-bold text-indigo-400 uppercase">Change Portal Password</h4>
                 <div>
                   <label className="block text-slate-400 mb-1.5">Current Password</label>
-                  <input
+                  <input placeholder="Enter Current Password"
                     type="password"
                     required
                     value={currentPassword}
@@ -172,7 +172,7 @@ export default function AdminSettingsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-slate-400 mb-1.5">New Password</label>
-                    <input
+                    <input placeholder="Enter New Password"
                       type="password"
                       required
                       value={newPassword}
@@ -183,7 +183,7 @@ export default function AdminSettingsPage() {
                   </div>
                   <div>
                     <label className="block text-slate-400 mb-1.5">Confirm New Password</label>
-                    <input
+                    <input placeholder="Enter Verify Password"
                       type="password"
                       required
                       value={verifyPassword}

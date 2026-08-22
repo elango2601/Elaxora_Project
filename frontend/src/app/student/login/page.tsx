@@ -224,7 +224,7 @@ function StudentLoginForm() {
                 <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1.5">
                   Email address
                 </label>
-                <input
+                <input placeholder="Enter Email"
                   id="email"
                   type="email"
                   required
@@ -262,7 +262,7 @@ function StudentLoginForm() {
                     </button>
                   )}
                 </div>
-                <input
+                <input placeholder="Enter Password"
                   id="password"
                   type="password"
                   required
@@ -279,7 +279,7 @@ function StudentLoginForm() {
                     <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-300 mb-1.5">
                       Re-enter Password
                     </label>
-                    <input
+                    <input placeholder="Enter Confirm Password"
                       id="confirmPassword"
                       type="password"
                       required={!isLogin}
@@ -293,7 +293,7 @@ function StudentLoginForm() {
                     <label htmlFor="mobile" className="block text-sm font-medium text-slate-300 mb-1.5">
                       Mobile Number
                     </label>
-                    <input
+                    <input placeholder="Enter Mobile Number"
                       id="mobile"
                       type="tel"
                       required={!isLogin}
@@ -307,7 +307,7 @@ function StudentLoginForm() {
                     <label htmlFor="state" className="block text-sm font-medium text-slate-300 mb-1.5">
                       State / Region
                     </label>
-                    <input
+                    <input placeholder="Enter State"
                       id="state"
                       type="text"
                       required={!isLogin}

@@ -108,7 +108,7 @@ export default function AdminCustomersPage() {
 
         {/* Filter */}
         <div className="glass-card p-4">
-          <input
+          <input placeholder="Enter Search"
             type="text"
 
             value={search}
