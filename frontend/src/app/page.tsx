@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { db } from "@/lib/firebase";
+import { collection, getDocs } from "firebase/firestore";
 import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
 
 interface Project {
@@ -50,16 +52,17 @@ const fallbackProjects: Project[] = [
   }
 ];
 
+
 async function getFeaturedProjects(): Promise<Project[]> {
   try {
-    const res = await fetch("http://127.0.0.1:8000/api/projects", { 
-      next: { revalidate: 60 } 
+    const querySnapshot = await getDocs(collection(db, "projects"));
+    const data: Project[] = [];
+    querySnapshot.forEach((doc) => {
+      data.push({ id: doc.id, ...doc.data() } as Project);
     });
-    if (!res.ok) return fallbackProjects;
-    const data = await res.json();
     return data.length > 0 ? data.slice(0, 3) : fallbackProjects;
   } catch (error) {
-    console.warn("Backend not reachable. Serving fallback static projects.");
+    console.warn("Backend not reachable. Serving fallback static projects.", error);
     return fallbackProjects;
   }
 }

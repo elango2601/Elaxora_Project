@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 interface Project {
   id: string;
@@ -88,13 +90,12 @@ export default function ProjectsCatalog() {
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const res = await fetch("http://localhost:8000/api/projects");
-        if (res.ok) {
-          const data = await res.json();
-          setProjects(data.length > 0 ? data : fallbackProjects);
-        } else {
-          setProjects(fallbackProjects);
-        }
+        const querySnapshot = await getDocs(collection(db, "projects"));
+        const data: Project[] = [];
+        querySnapshot.forEach((doc) => {
+          data.push({ id: doc.id, ...doc.data() } as Project);
+        });
+        setProjects(data.length > 0 ? data : fallbackProjects);
       } catch (err) {
         console.warn("Failed fetching live projects, using client fallbacks", err);
         setProjects(fallbackProjects);
