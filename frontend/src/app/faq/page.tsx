@@ -82,7 +82,7 @@ export default function FaqPage() {
         </p>
         <div className="flex justify-center gap-3">
           <a
-            href="https://wa.me/919999999999"
+            href="https://wa.me/916374578233"
             target="_blank"
             rel="noreferrer"
             className="gradient-btn px-4 py-2 rounded-lg text-xs font-bold text-white"

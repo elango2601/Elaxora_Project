@@ -222,7 +222,7 @@ function EnquiryFormContent() {
         </div>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <a
-            href={`https://wa.me/919999999999?text=Hi%20Elaxora Solutions,%20I've%20submitted%20an%20enquiry%20with%20ID%20${successData.id}.%20Please%20review%20my%20requirements.`}
+            href={`https://wa.me/916374578233?text=Hi%20Elaxora Solutions,%20I've%20submitted%20an%20enquiry%20with%20ID%20${successData.id}.%20Please%20review%20my%20requirements.`}
             target="_blank"
             rel="noreferrer"
             className="gradient-btn px-6 py-3.5 rounded-xl text-sm font-bold text-white shadow-lg"

@@ -15,7 +15,7 @@ export default function AdminSettingsPage() {
 
   const [businessName, setBusinessName] = useState("Elaxora Solutions");
   const [supportEmail, setSupportEmail] = useState("elaxora11@gmail.com");
-  const [supportWhatsapp, setSupportWhatsapp] = useState("+919999999999");
+  const [supportWhatsapp, setSupportWhatsapp] = useState("+916374578233");
   
   const [defaultCommission, setDefaultCommission] = useState("10");
   const [defaultDiscount, setDefaultDiscount] = useState("10");

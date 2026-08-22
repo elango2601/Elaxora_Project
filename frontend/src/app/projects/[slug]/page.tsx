@@ -501,7 +501,7 @@ export default function ProjectDetails() {
                 Request Custom Quote
               </Link>
               <a
-                href={`https://wa.me/919999999999?text=Hi%20Elaxora Solutions,%20I'm%20interested%20in%20the%20${encodeURIComponent(project.title)}%20project.`}
+                href={`https://wa.me/916374578233?text=Hi%20Elaxora Solutions,%20I'm%20interested%20in%20the%20${encodeURIComponent(project.title)}%20project.`}
                 target="_blank"
                 rel="noreferrer"
                 className="border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white flex items-center justify-center gap-2 w-full py-3 rounded-xl text-xs font-semibold transition-all"
@@ -523,7 +523,7 @@ export default function ProjectDetails() {
         </div>
         <div className="flex gap-2">
           <a
-            href={`https://wa.me/919999999999?text=Hi%20Elaxora%20Solutions,%20I'm%20interested%20in%20the%20${encodeURIComponent(project.title)}%20project.`}
+            href={`https://wa.me/916374578233?text=Hi%20Elaxora%20Solutions,%20I'm%20interested%20in%20the%20${encodeURIComponent(project.title)}%20project.`}
             target="_blank"
             rel="noreferrer"
             className="rounded-lg bg-slate-900 border border-card-border p-2.5 text-xs font-semibold text-foreground hover:bg-slate-800 transition-colors"

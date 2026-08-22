@@ -469,7 +469,7 @@ export default function StudentProjectStatus() {
             
             <div className="border-t border-white/5 pt-4">
               <a
-                href={`https://wa.me/919999999999?text=Hi%20Elaxora Solutions,%20I'm%20discussing%20my%20order%20${order.id}.%20Please%20verify.`}
+                href={`https://wa.me/916374578233?text=Hi%20Elaxora Solutions,%20I'm%20discussing%20my%20order%20${order.id}.%20Please%20verify.`}
                 target="_blank"
                 rel="noreferrer"
                 className="border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white flex items-center justify-center gap-2 w-full py-3 rounded-xl text-xs font-semibold transition-all"
