@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import AdminSidebar from "@/components/AdminSidebar";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, addDoc, updateDoc, doc } from "firebase/firestore";
+import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
 
 interface Project {
   id: string;
@@ -136,6 +136,20 @@ export default function AdminProjectsPage() {
     setSeoMeta("");
     
     setShowAddForm(false);
+  };
+
+  const handleDelete = async () => {
+    if (!editingProjectId) return;
+    if (!window.confirm("Are you sure you want to delete this project? This cannot be undone.")) return;
+
+    try {
+      await deleteDoc(doc(db, "projects", editingProjectId));
+      alert("Project deleted.");
+      handleCancel();
+      loadProjects();
+    } catch (err: any) {
+      alert("Failed to delete project: " + err.message);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -396,6 +410,15 @@ export default function AdminProjectsPage() {
                 >
                   Cancel
                 </button>
+                {editingProjectId && (
+                  <button
+                    type="button"
+                    onClick={handleDelete}
+                    className="ml-auto rounded bg-red-600/10 hover:bg-red-600/20 text-red-500 hover:text-red-400 border border-red-500/20 font-bold px-4 py-2.5 transition-colors"
+                  >
+                    Delete Project
+                  </button>
+                )}
               </div>
             </form>
           </div>
