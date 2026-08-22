@@ -3,6 +3,8 @@ import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { FadeInUp, StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
 
+export const dynamic = 'force-dynamic';
+
 interface Project {
   id: string;
   title: string;
@@ -58,7 +60,10 @@ async function getFeaturedProjects(): Promise<Project[]> {
     const querySnapshot = await getDocs(collection(db, "projects"));
     const data: Project[] = [];
     querySnapshot.forEach((doc) => {
-      data.push({ id: doc.id, ...doc.data() } as Project);
+      const projectData = doc.data();
+      if (projectData.active !== false) {
+        data.push({ id: doc.id, ...projectData } as Project);
+      }
     });
     return data.length > 0 ? data.slice(0, 3) : fallbackProjects;
   } catch (error) {

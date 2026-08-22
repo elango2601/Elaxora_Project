@@ -93,7 +93,10 @@ export default function ProjectsCatalog() {
         const querySnapshot = await getDocs(collection(db, "projects"));
         const data: Project[] = [];
         querySnapshot.forEach((doc) => {
-          data.push({ id: doc.id, ...doc.data() } as Project);
+          const projectData = doc.data();
+          if (projectData.active !== false) {
+            data.push({ id: doc.id, ...projectData } as Project);
+          }
         });
         setProjects(data.length > 0 ? data : fallbackProjects);
       } catch (err) {
