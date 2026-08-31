@@ -121,7 +121,11 @@ function StudentLoginForm() {
       const userCredential = await signInWithPopup(auth, provider);
       await handleAuthSuccess(userCredential);
     } catch (err: any) {
-      setError(err.message || "Google Sign-In failed.");
+      if (err.code === 'auth/popup-closed-by-user') {
+        setError(""); // User intentionally closed it
+      } else {
+        setError(err.message || "Google Sign-In failed.");
+      }
     } finally {
       setLoading(false);
     }
@@ -135,7 +139,11 @@ function StudentLoginForm() {
       const userCredential = await signInWithPopup(auth, provider);
       await handleAuthSuccess(userCredential);
     } catch (err: any) {
-      setError(err.message || "Apple Sign-In failed.");
+      if (err.code === 'auth/popup-closed-by-user') {
+        setError(""); // User intentionally closed it
+      } else {
+        setError(err.message || "Apple Sign-In failed.");
+      }
     } finally {
       setLoading(false);
     }
