@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import AdminSidebar from "@/components/AdminSidebar";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, doc, updateDoc, addDoc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, addDoc, onSnapshot } from "firebase/firestore";
 
 interface Enquiry {
   id: string;
@@ -81,20 +81,26 @@ export default function AdminEnquiriesPage() {
       }
 
     try {
-      const querySnapshot = await getDocs(collection(db, "enquiries"));
-      const list = querySnapshot.docs.map(docSnap => {
-        const data = docSnap.data();
-        return {
-          id: docSnap.id,
-          ...data,
-          notes: data.notes || [],
-          created_at: data.created_at?.toDate ? data.created_at.toDate().toISOString() : data.created_at
-        };
-      }) as Enquiry[];
-      setEnquiries(list);
+      const unsubscribe = onSnapshot(collection(db, "enquiries"), (querySnapshot) => {
+        const list = querySnapshot.docs.map(docSnap => {
+          const data = docSnap.data();
+          return {
+            id: docSnap.id,
+            ...data,
+            notes: data.notes || [],
+            created_at: data.created_at?.toDate ? data.created_at.toDate().toISOString() : data.created_at
+          };
+        }) as Enquiry[];
+        setEnquiries(list);
+        setLoading(false);
+      }, (err) => {
+        console.error("Enquiry fetch error", err);
+        setLoading(false);
+      });
+
+      return unsubscribe;
     } catch (err) {
       console.error("Enquiry fetch error", err);
-    } finally {
       setLoading(false);
     }
   }
@@ -106,7 +112,13 @@ export default function AdminEnquiriesPage() {
       return;
     }
     setToken(t);
-    loadEnquiries(t);
+    let unsub: any;
+    loadEnquiries(t).then(res => {
+      unsub = res;
+    });
+    return () => {
+      if (unsub) unsub();
+    };
   }, [router]);
 
   // Handle Enquiry Status change
