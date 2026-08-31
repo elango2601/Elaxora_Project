@@ -282,6 +282,7 @@ export default function AdminProjectsPage() {
                     <option value="CSE">CSE</option>
                     <option value="IT">IT</option>
                     <option value="ECE">ECE</option>
+                    <option value="AI & DS">AI & DS</option>
                     <option value="BCA">BCA</option>
                     <option value="MCA">MCA</option>
                   </select>
