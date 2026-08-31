@@ -57,12 +57,28 @@ const fallbackProjects: Project[] = [
 
 async function getFeaturedProjects(): Promise<Project[]> {
   try {
-    const querySnapshot = await getDocs(collection(db, "projects"));
+    const res = await fetch('https://firestore.googleapis.com/v1/projects/elaxora-466c4/databases/(default)/documents/projects', {
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error("Failed to fetch");
+    const json = await res.json();
     const data: Project[] = [];
-    querySnapshot.forEach((doc) => {
-      const projectData = doc.data();
-      if (projectData.active !== false) {
-        data.push({ id: doc.id, ...projectData } as Project);
+    
+    (json.documents || []).forEach((doc: any) => {
+      const fields = doc.fields;
+      const active = fields.active ? fields.active.booleanValue : true;
+      if (active !== false) {
+        data.push({
+          id: doc.name.split('/').pop(),
+          title: fields.title?.stringValue || "",
+          slug: fields.slug?.stringValue || "",
+          category: fields.category?.stringValue || "",
+          department: fields.department?.stringValue || "",
+          difficulty: fields.difficulty?.stringValue || "",
+          starting_price: fields.starting_price?.integerValue || fields.starting_price?.doubleValue || 0,
+          technology: fields.technology?.arrayValue?.values?.map((v: any) => v.stringValue) || [],
+          short_description: fields.short_description?.stringValue || "",
+        } as Project);
       }
     });
     return data.length > 0 ? data.slice(0, 3) : fallbackProjects;
