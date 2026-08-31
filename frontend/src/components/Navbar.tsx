@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import MobileBottomNav from "./MobileBottomNav";
@@ -56,15 +55,10 @@ export default function Navbar() {
             
             {/* Logo (Centered on mobile, Left on desktop) */}
             <div className="flex flex-1 md:flex-none items-center justify-center md:justify-start">
-              <Link href="/" className="flex items-center">
-                <Image 
-                  src="/elaxora-logo.jpg" 
-                  alt="Elaxora Solutions Logo" 
-                  width={200} 
-                  height={50} 
-                  className="h-10 w-auto rounded object-contain"
-                  priority
-                />
+              <Link href="/" className="flex items-center space-x-2">
+                <span className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                  Elaxora<span className="text-indigo-600">Solutions</span>
+                </span>
               </Link>
             </div>
 
@@ -121,15 +115,9 @@ export default function Navbar() {
       >
         <div className="space-y-6">
           <div className="flex items-center justify-between border-b border-card-border pb-4">
-            <Link href="/" onClick={() => setIsOpen(false)}>
-              <Image 
-                src="/elaxora-logo.jpg" 
-                alt="Elaxora Solutions Logo" 
-                width={150} 
-                height={40} 
-                className="h-8 w-auto rounded object-contain"
-              />
-            </Link>
+            <span className="text-lg font-bold tracking-tight text-foreground">
+              Elaxora<span className="text-indigo-600">Solutions</span>
+            </span>
             <button
               onClick={() => setIsOpen(false)}
               className="p-1 rounded text-muted hover:text-foreground"
