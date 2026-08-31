@@ -1,16 +1,22 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+import nodemailer from 'nodemailer';
 
 export async function POST(request: Request) {
   try {
     const { type, to, data } = await request.json();
 
-    if (!process.env.NEXT_PUBLIC_RESEND_API_KEY) {
-      console.warn('Resend API key missing, simulating email send.');
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+      console.warn('Gmail credentials missing, simulating email send.');
       return NextResponse.json({ success: true, simulated: true });
     }
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD,
+      },
+    });
 
     let subject = '';
     let html = '';
@@ -45,19 +51,18 @@ export async function POST(request: Request) {
       `;
     }
 
-    const { data: responseData, error } = await resend.emails.send({
-      from: 'Elaxora Solutions <onboarding@resend.dev>',
-      to: [to],
+    const mailOptions = {
+      from: `"Elaxora Solutions" <${process.env.GMAIL_USER}>`,
+      to: to,
       subject,
       html,
-    });
+    };
 
-    if (error) {
-      return NextResponse.json({ error }, { status: 400 });
-    }
+    const info = await transporter.sendMail(mailOptions);
+    return NextResponse.json({ success: true, messageId: info.messageId });
 
-    return NextResponse.json(responseData);
   } catch (error) {
+    console.error('Nodemailer error:', error);
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 }
