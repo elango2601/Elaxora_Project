@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import AdminSidebar from "@/components/AdminSidebar";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, onSnapshot, doc, updateDoc, query, orderBy } from "firebase/firestore";
 
 interface Milestone {
   name: string;
@@ -309,7 +309,7 @@ export default function AdminOrdersPage() {
                       </tr>
                     ) : (
                       orders.map((o) => {
-                        const totalPaid = o.payments.reduce((acc, p) => acc + p.amount, 0);
+                        const totalPaid = (o.payments || []).reduce((acc, p) => acc + p.amount, 0);
                         const balance = o.price - totalPaid;
                         return (
                           <tr key={o.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
