@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { db } from "@/lib/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
 
 interface Project {
   id: string;
@@ -88,25 +88,23 @@ export default function ProjectsCatalog() {
   ];
 
   useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const querySnapshot = await getDocs(collection(db, "projects"));
-        const data: Project[] = [];
-        querySnapshot.forEach((doc) => {
-          const projectData = doc.data();
-          if (projectData.active !== false) {
-            data.push({ id: doc.id, ...projectData } as Project);
-          }
-        });
-        setProjects(data.length > 0 ? data : fallbackProjects);
-      } catch (err) {
-        console.warn("Failed fetching live projects, using client fallbacks", err);
-        setProjects(fallbackProjects);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchProjects();
+    const unsubscribe = onSnapshot(collection(db, "projects"), (snapshot) => {
+      const data: Project[] = [];
+      snapshot.forEach((doc) => {
+        const projectData = doc.data();
+        if (projectData.active !== false) {
+          data.push({ id: doc.id, ...projectData } as Project);
+        }
+      });
+      setProjects(data.length > 0 ? data : fallbackProjects);
+      setLoading(false);
+    }, (error) => {
+      console.warn("Failed fetching live projects, using client fallbacks", error);
+      setProjects(fallbackProjects);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const resetFilters = () => {

@@ -225,24 +225,34 @@ export default function ProjectDetails() {
   const [activeTab, setActiveTab] = useState("overview"); // overview, system, inclusions, faq
 
   useEffect(() => {
-    async function fetchProject() {
-      try {
-        const q = query(collection(db, "projects"), where("slug", "==", slug));
-        const querySnapshot = await getDocs(q);
+    let unsubscribe: () => void;
+    
+    async function setupListener() {
+      if (!slug) return;
+      
+      const { onSnapshot } = await import("firebase/firestore");
+      const q = query(collection(db, "projects"), where("slug", "==", slug));
+      
+      unsubscribe = onSnapshot(q, (querySnapshot) => {
         if (!querySnapshot.empty) {
           const docSnap = querySnapshot.docs[0];
           setProject({ id: docSnap.id, ...docSnap.data() } as Project);
         } else {
-          setProject(fallbackProjectData[slug] || null);
+          setProject(fallbackProjectData[slug as string] || null);
         }
-      } catch (err) {
-        console.warn("API offline, loading client fallback for details.", err);
-        setProject(fallbackProjectData[slug] || null);
-      } finally {
         setLoading(false);
-      }
+      }, (err) => {
+        console.warn("API offline, loading client fallback for details.", err);
+        setProject(fallbackProjectData[slug as string] || null);
+        setLoading(false);
+      });
     }
-    if (slug) fetchProject();
+
+    setupListener();
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, [slug]);
 
   if (loading) {
