@@ -4,8 +4,21 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Elaxora Solutions - Final-Year Project Development & Mentoring",
-  description: "Affordable and customizable final-year projects built around your requirements, with local setup and viva mentoring.",
+  title: "Elaxora Solutions | Final Year Projects",
+  description: "Get premium, customized final-year projects with complete local setup and Viva mentoring. Build, Understand, and Present with confidence.",
+  openGraph: {
+    title: "Elaxora Solutions | Final Year Projects",
+    description: "Get premium, customized final-year projects with complete local setup and Viva mentoring.",
+    url: "https://elaxora-final-year-project.vercel.app",
+    siteName: "Elaxora Solutions",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Elaxora Solutions | Final Year Projects",
+    description: "Premium customized final-year projects with full mentoring.",
+  },
 };
 
 export default function RootLayout({

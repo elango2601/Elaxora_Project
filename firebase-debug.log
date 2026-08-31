@@ -1,0 +1,55 @@
+[debug] [2026-08-31T15:10:13.497Z] ----------------------------------------------------------------------
+[debug] [2026-08-31T15:10:13.499Z] Command:       /Users/elangok/.nvm/versions/node/v24.19.0/bin/node /Users/elangok/Desktop/Elaxora website/node_modules/.bin/firebase projects:list
+[debug] [2026-08-31T15:10:13.500Z] CLI Version:   15.27.0
+[debug] [2026-08-31T15:10:13.500Z] Platform:      darwin
+[debug] [2026-08-31T15:10:13.500Z] Node Version:  v24.19.0
+[debug] [2026-08-31T15:10:13.500Z] Detected Agent: antigravity
+[debug] [2026-08-31T15:10:13.500Z] Time:          Mon Aug 31 2026 20:40:13 GMT+0530 (India Standard Time)
+[debug] [2026-08-31T15:10:13.500Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-08-31T15:10:13.512Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-08-31T15:10:13.654Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-08-31T15:10:13.654Z] > authorizing via signed-in user (elaxora11@gmail.com)
+[debug] [2026-08-31T15:10:13.656Z] Checked if tokens are valid: false, expires at: 1787921382950
+[debug] [2026-08-31T15:10:13.656Z] Checked if tokens are valid: false, expires at: 1787921382950
+[debug] [2026-08-31T15:10:13.656Z] > refreshing access token with scopes: []
+[debug] [2026-08-31T15:10:13.657Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-08-31T15:10:13.657Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-08-31T15:10:13.662Z] *** [apiv2] error from fetch(https://firebase-public.firebaseio.com/cli.json, {"headers":{},"method":"GET"}): Error: getaddrinfo ENOTFOUND firebase-public.firebaseio.com
+[warn] ⚠  Unable to fetch the CLI MOTD and remote config. This is not a fatal error, but may indicate an issue with your network connection. 
+[debug] [2026-08-31T15:10:13.662Z] Failed to fetch MOTD FirebaseError: Failed to make request to https://firebase-public.firebaseio.com/cli.json
+[debug] [2026-08-31T15:10:13.663Z] *** [apiv2] error from fetch(https://www.googleapis.com/oauth2/v3/token, {"headers":{},"method":"POST","body":{"type":"Buffer","data":[45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,56,99,102,50,57,50,53,56,53,54,102,49,98,49,56,57,50,49,100,52,52,54,53,56,13,10,67,111,110,116,101,110,116,45,68,105,115,112,111,115,105,116,105,111,110,58,32,102,111,114,109,45,100,97,116,97,59,32,110,97,109,101,61,34,114,101,102,114,101,115,104,95,116,111,107,101,110,34,13,10,13,10,49,47,47,48,103,110,71,52,55,86,78,111,75,50,90,97,67,103,89,73,65,82,65,65,71,66,65,83,78,119,70,45,76,57,73,114,118,114,80,74,90,88,101,89,120,121,104,100,97,70,71,68,65,74,114,78,48,90,122,119,110,104,45,86,115,73,102,80,80,69,114,90,53,65,103,67,95,104,116,77,75,98,109,67,90,117,112,90,107,101,102,113,66,82,90,73,73,50,88,120,107,55,69,13,10,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,56,99,102,50,57,50,53,56,53,54,102,49,98,49,56,57,50,49,100,52,52,54,53,56,13,10,67,111,110,116,101,110,116,45,68,105,115,112,111,115,105,116,105,111,110,58,32,102,111,114,109,45,100,97,116,97,59,32,110,97,109,101,61,34,99,108,105,101,110,116,95,105,100,34,13,10,13,10,53,54,51,53,56,52,51,51,53,56,54,57,45,102,103,114,104,103,109,100,52,55,98,113,110,101,107,105,106,53,105,56,98,53,112,114,48,51,104,111,56,52,57,101,54,46,97,112,112,115,46,103,111,111,103,108,101,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,13,10,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,56,99,102,50,57,50,53,56,53,54,102,49,98,49,56,57,50,49,100,52,52,54,53,56,13,10,67,111,110,116,101,110,116,45,68,105,115,112,111,115,105,116,105,111,110,58,32,102,111,114,109,45,100,97,116,97,59,32,110,97,109,101,61,34,99,108,105,101,110,116,95,115,101,99,114,101,116,34,13,10,13,10,106,57,105,86,90,102,83,56,107,107,67,69,70,85,80,97,65,101,74,86,48,115,65,105,13,10,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,56,99,102,50,57,50,53,56,53,54,102,49,98,49,56,57,50,49,100,52,52,54,53,56,13,10,67,111,110,116,101,110,116,45,68,105,115,112,111,115,105,116,105,111,110,58,32,102,111,114,109,45,100,97,116,97,59,32,110,97,109,101,61,34,103,114,97,110,116,95,116,121,112,101,34,13,10,13,10,114,101,102,114,101,115,104,95,116,111,107,101,110,13,10,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,56,99,102,50,57,50,53,56,53,54,102,49,98,49,56,57,50,49,100,52,52,54,53,56,13,10,67,111,110,116,101,110,116,45,68,105,115,112,111,115,105,116,105,111,110,58,32,102,111,114,109,45,100,97,116,97,59,32,110,97,109,101,61,34,115,99,111,112,101,34,13,10,13,10,13,10,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,56,99,102,50,57,50,53,56,53,54,102,49,98,49,56,57,50,49,100,52,52,54,53,56,45,45,13,10]}}): Error: getaddrinfo ENOTFOUND www.googleapis.com
+[error] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2026-08-31T15:10:13.663Z] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2026-08-31T15:10:13.664Z] FirebaseError: Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+    at invalidCredentialError (/Users/elangok/Desktop/Elaxora website/node_modules/firebase-tools/lib/auth.js:178:12)
+    at refreshTokens (/Users/elangok/Desktop/Elaxora website/node_modules/firebase-tools/lib/auth.js:607:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async getAccessToken (/Users/elangok/Desktop/Elaxora website/node_modules/firebase-tools/lib/apiv2.js:53:18)
+    at async Client.addAuthHeader (/Users/elangok/Desktop/Elaxora website/node_modules/firebase-tools/lib/apiv2.js:209:21)
+    at async Client.request (/Users/elangok/Desktop/Elaxora website/node_modules/firebase-tools/lib/apiv2.js:156:34)
+    at async getProjectPage (/Users/elangok/Desktop/Elaxora website/node_modules/firebase-tools/lib/management/projects.js:287:17)
+    at async getFirebaseProjectPage (/Users/elangok/Desktop/Elaxora website/node_modules/firebase-tools/lib/management/projects.js:304:23)
+    at async listFirebaseProjects (/Users/elangok/Desktop/Elaxora website/node_modules/firebase-tools/lib/management/projects.js:333:29)
+    at async Command.actionFn (/Users/elangok/Desktop/Elaxora website/node_modules/firebase-tools/lib/commands/projects-list.js:51:20)
+[error] 
+[error] Error: Failed to list Firebase projects. See firebase-debug.log for more info.
+[debug] [2026-08-31T15:10:13.929Z] Error: EPERM: operation not permitted, open '/Users/elangok/.config/configstore/firebase-tools.json.3124383157'
+    at Object.openSync (node:fs:622:18)
+    at writeFile.writeFileSync [as sync] (/Users/elangok/Desktop/Elaxora website/node_modules/write-file-atomic/index.js:205:13)
+    at set all (/Users/elangok/Desktop/Elaxora website/node_modules/configstore/index.js:61:20)
+    at Configstore.delete (/Users/elangok/Desktop/Elaxora website/node_modules/configstore/index.js:101:12)
+    at process.<anonymous> (/Users/elangok/Desktop/Elaxora website/node_modules/firebase-tools/lib/bin/cli.js:95:45)
+    at process.emit (node:events:521:24)
+    at process.exit (node:internal/process/per_thread:236:15)
+    at Timeout._onTimeout (/Users/elangok/Desktop/Elaxora website/node_modules/firebase-tools/lib/errorOut.js:20:17)
+    at listOnTimeout (node:internal/timers:635:17)
+    at process.processTimers (node:internal/timers:571:7)
+[error] 
+[error] Error: An unexpected error has occurred.
