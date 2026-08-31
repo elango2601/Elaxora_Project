@@ -2,35 +2,49 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
+    // Function to check if the user is the Admin
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == "elaxora11@gmail.com" || 
+        request.auth.token.email == "elango2601@gmail.com" ||
+        request.auth.token.email == "elangopugal26@gmail.com"
+      );
+    }
+
     match /projects/{document=**} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
     
     match /referrals/{document=**} {
       allow read, update: if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
     
     match /enquiries/{document=**} {
-      allow create: if true;
-      allow read, update, delete: if request.auth != null;
+      allow create: if true; // Anyone can submit an enquiry
+      allow read, update, delete: if isAdmin() || (request.auth != null && request.auth.token.email == resource.data.student_email);
     }
 
     match /quotes/{document=**} {
-      allow read, write: if request.auth != null;
+      // Students can read their own quotes, Admin can do everything
+      allow read: if isAdmin() || (request.auth != null && request.auth.token.email == resource.data.student_email);
+      allow write: if isAdmin();
     }
 
     match /orders/{document=**} {
-      allow read, write: if request.auth != null;
+      // Students can read their own orders, Admin can do everything
+      allow read: if isAdmin() || (request.auth != null && request.auth.token.email == resource.data.student_email);
+      allow write: if isAdmin();
     }
 
     match /users/{document=**} {
-      allow read, write: if request.auth != null;
+      // Users can read/write their own profile, Admin can do everything
+      allow read, write: if isAdmin() || (request.auth != null && request.auth.uid == document);
     }
     
     match /{document=**} {
-      allow read, write: if request.auth != null;
+      allow read, write: if isAdmin();
     }
   }
 }
