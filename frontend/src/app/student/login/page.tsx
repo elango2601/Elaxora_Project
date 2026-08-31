@@ -32,6 +32,7 @@ function StudentLoginForm() {
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -71,6 +72,7 @@ function StudentLoginForm() {
     e.preventDefault();
     setLoading(true);
     setError("");
+      setSuccessMsg("");
     
     try {
       if (isLogin) {
@@ -116,13 +118,15 @@ function StudentLoginForm() {
   const handleGoogleSignIn = async () => {
     setLoading(true);
     setError("");
+      setSuccessMsg("");
     try {
       const provider = new GoogleAuthProvider();
       const userCredential = await signInWithPopup(auth, provider);
       await handleAuthSuccess(userCredential);
     } catch (err: any) {
       if (err.code === 'auth/popup-closed-by-user') {
-        setError(""); // User intentionally closed it
+        setError("");
+      setSuccessMsg(""); // User intentionally closed it
       } else {
         setError(err.message || "Google Sign-In failed.");
       }
@@ -134,13 +138,15 @@ function StudentLoginForm() {
   const handleAppleSignIn = async () => {
     setLoading(true);
     setError("");
+      setSuccessMsg("");
     try {
       const provider = new OAuthProvider('apple.com');
       const userCredential = await signInWithPopup(auth, provider);
       await handleAuthSuccess(userCredential);
     } catch (err: any) {
       if (err.code === 'auth/popup-closed-by-user') {
-        setError(""); // User intentionally closed it
+        setError("");
+      setSuccessMsg(""); // User intentionally closed it
       } else {
         setError(err.message || "Apple Sign-In failed.");
       }
@@ -192,6 +198,15 @@ function StudentLoginForm() {
 
           <div className="bg-slate-900/50 backdrop-blur-xl p-6 sm:p-8 rounded-2xl border border-white/10 shadow-2xl relative">
             <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent rounded-2xl pointer-events-none" />
+            
+            {successMsg && (
+              <div className="mb-6 rounded-lg bg-green-500/10 p-4 border border-green-500/20 flex items-start gap-3">
+                <svg className="w-5 h-5 text-green-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <p className="text-sm text-green-400 font-medium">{successMsg}</p>
+              </div>
+            )}
             
             {error && (
               <div className="mb-6 rounded-lg bg-red-500/10 p-4 border border-red-500/20 flex items-start gap-3">
@@ -259,8 +274,10 @@ function StudentLoginForm() {
                         try {
                           await sendPasswordResetEmail(auth, email);
                           setError("");
-                          alert("Password reset email sent! Check your inbox.");
+      setSuccessMsg("");
+                          setSuccessMsg("Password reset email sent! Check your inbox.");
                         } catch (err: any) {
+                          setSuccessMsg("");
                           setError(err.message || "Failed to send reset email.");
                         }
                       }}
@@ -364,6 +381,7 @@ function StudentLoginForm() {
                         await sendSignInLinkToEmail(auth, email, actionCodeSettings);
                         window.localStorage.setItem('emailForSignIn', email);
                         setError("");
+      setSuccessMsg("");
                         alert("Magic link sent! Check your inbox to sign in securely.");
                       } catch (err: any) {
                         setError(err.message || "Failed to send magic link.");
