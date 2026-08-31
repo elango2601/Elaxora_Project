@@ -55,33 +55,39 @@ export default function AdminPaymentsPage() {
       }
 
       try {
-        const querySnapshot = await getDocs(collection(db, "orders"));
-        const allPayments: Payment[] = [];
-        
-        querySnapshot.forEach((docSnap) => {
-          const data = docSnap.data();
-          if (data.payments && Array.isArray(data.payments)) {
-            data.payments.forEach((p: any) => {
-              allPayments.push({
-                order_id: docSnap.id,
-                student_name: data.student_name || "Unknown",
-                student_email: data.student_email || "Unknown",
-                amount: p.amount || 0,
-                phase: p.phase || "Unknown",
-                recorded_at: p.recorded_at || new Date().toISOString(),
-                notes: p.notes || "",
-                status: p.status || "Completed",
-                id: p.id || Math.random().toString(),
+        const q = query(collection(db, "orders"));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+          const allPayments: Payment[] = [];
+          
+          snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            if (data.payments && Array.isArray(data.payments)) {
+              data.payments.forEach((p: any) => {
+                allPayments.push({
+                  order_id: docSnap.id,
+                  student_name: data.student_name || "Unknown",
+                  student_email: data.student_email || "Unknown",
+                  amount: p.amount || 0,
+                  phase: p.phase || "Unknown",
+                  recorded_at: p.recorded_at || new Date().toISOString(),
+                  notes: p.notes || "",
+                  status: p.status || "Completed",
+                  id: p.id || Math.random().toString(),
+                });
               });
-            });
-          }
-        });
+            }
+          });
 
-        allPayments.sort((a, b) => new Date(b.recorded_at).getTime() - new Date(a.recorded_at).getTime());
-        setPayments(allPayments);
+          allPayments.sort((a, b) => new Date(b.recorded_at).getTime() - new Date(a.recorded_at).getTime());
+          setPayments(allPayments);
+          setLoading(false);
+        }, (err) => {
+          console.error(err);
+          setLoading(false);
+        });
+        return () => unsubscribe();
       } catch (err) {
         console.error("Failed loading payments", err);
-      } finally {
         setLoading(false);
       }
     }

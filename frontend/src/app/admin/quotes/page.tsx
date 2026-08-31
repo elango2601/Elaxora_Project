@@ -56,16 +56,24 @@ export default function AdminQuotesPage() {
       }
 
       try {
-        const q = query(collection(db, "quotes"), orderBy("created_at", "desc"));
-        const snapshot = await getDocs(q);
-        const list = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Quote[];
-        setQuotes(list);
+        const q = query(collection(db, "quotes"));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+          const list = snapshot.docs.map(docSnap => ({
+            id: docSnap.id,
+            ...docSnap.data()
+          })) as Quote[];
+          
+          list.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+          
+          setQuotes(list);
+          setLoading(false);
+        }, (err) => {
+          console.error(err);
+          setLoading(false);
+        });
+        return () => unsubscribe();
       } catch (err) {
         console.error("Failed loading quotes", err);
-      } finally {
         setLoading(false);
       }
     }

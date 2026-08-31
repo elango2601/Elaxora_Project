@@ -108,15 +108,28 @@ export default function AdminOrdersPage() {
       }
 
     try {
-      const querySnapshot = await getDocs(collection(db, "orders"));
-      const list = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Order[];
-      setOrders(list);
+      const q = query(collection(db, "orders"));
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const list = snapshot.docs.map((docSnap) => ({
+          id: docSnap.id,
+          ...docSnap.data()
+        })) as Order[];
+        setOrders(list);
+        
+        setSelectedOrder((prev) => {
+          if (!prev) return null;
+          const updated = list.find((o) => o.id === prev.id);
+          return updated || prev;
+        });
+        
+        setLoading(false);
+      }, (err) => {
+        console.error(err);
+        setLoading(false);
+      });
+      return () => unsubscribe();
     } catch (err) {
-      console.error("Order fetch error", err);
-    } finally {
+      console.error(err);
       setLoading(false);
     }
   }
