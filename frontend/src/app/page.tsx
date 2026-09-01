@@ -207,14 +207,14 @@ export default async function HomePage() {
           </div>
         </FadeInUp>
 
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <StaggerContainer className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {trustMetrics.map((m, idx) => (
             <StaggerItem key={idx}>
-              <div className="group relative overflow-hidden rounded-2xl bg-slate-900/50 border border-white/10 p-6 sm:p-8 hover:bg-slate-800/50 hover:border-indigo-500/50 transition-all duration-500 h-full backdrop-blur-sm">
+              <div className="group relative overflow-hidden rounded-2xl bg-slate-900/50 border border-white/10 p-3 sm:p-8 hover:bg-slate-800/50 hover:border-indigo-500/50 transition-all duration-500 h-full backdrop-blur-sm">
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <span className="text-3xl sm:text-4xl block mb-4 bg-white/5 inline-flex p-3 rounded-xl border border-white/10 group-hover:scale-110 transition-transform duration-500">{m.icon}</span>
-                <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{m.title}</h3>
-                <p className="text-sm sm:text-base text-slate-400 leading-relaxed">{m.desc}</p>
+                <span className="text-xl sm:text-4xl block mb-2 sm:mb-4 bg-white/5 inline-flex p-2 sm:p-3 rounded-xl border border-white/10 group-hover:scale-110 transition-transform duration-500">{m.icon}</span>
+                <h3 className="text-[11px] sm:text-xl font-bold text-white mb-1 sm:mb-2">{m.title}</h3>
+                <p className="text-[9px] sm:text-base text-slate-400 leading-relaxed">{m.desc}</p>
               </div>
             </StaggerItem>
           ))}
@@ -245,10 +245,10 @@ export default async function HomePage() {
           </FadeInUp>
         </div>
         
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <StaggerContainer className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {projects.map((p) => (
             <StaggerItem key={p.id}>
-              <div className="group flex flex-col justify-between p-6 h-full rounded-2xl bg-slate-900/50 border border-white/10 hover:border-indigo-500/50 hover:bg-slate-800/80 transition-all duration-500 backdrop-blur-sm relative overflow-hidden">
+              <div className="group flex flex-col justify-between p-3 sm:p-6 h-full rounded-2xl bg-slate-900/50 border border-white/10 hover:border-indigo-500/50 hover:bg-slate-800/80 transition-all duration-500 backdrop-blur-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
@@ -257,8 +257,8 @@ export default async function HomePage() {
                     </span>
                     <span className="text-xs font-medium text-slate-500 bg-slate-950 px-2 py-1 rounded border border-white/5">{p.difficulty}</span>
                   </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{p.title}</h3>
-                  <p className="text-sm text-slate-400 line-clamp-3 mb-6 leading-relaxed">{p.short_description}</p>
+                  <h3 className="text-[11px] sm:text-xl font-bold text-white mb-2 line-clamp-1 sm:line-clamp-none">{p.title}</h3>
+                  <p className="text-[9px] sm:text-sm text-slate-400 line-clamp-2 sm:line-clamp-3 mb-3 sm:mb-6 leading-relaxed">{p.short_description}</p>
                   
                   <div className="flex flex-wrap gap-1.5 mb-6">
                     {p.technology.map((tech, i) => (
@@ -268,9 +268,9 @@ export default async function HomePage() {
                     ))}
                   </div>
                 </div>
-                <div className="border-t border-white/10 pt-4 flex items-center justify-between mt-auto">
+                <div className="border-t border-white/10 pt-2 sm:pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between mt-auto gap-1 sm:gap-0">
                   <div>
-                    <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block mb-0.5">Starting at</span>
+                    <span className="text-[8px] sm:text-[10px] text-slate-500 font-semibold uppercase tracking-wider block mb-0.5">Starting at</span>
                     <span className="text-lg font-bold text-white">₹{p.starting_price.toLocaleString("en-IN")}</span>
                   </div>
                   <Link
@@ -299,7 +299,7 @@ export default async function HomePage() {
           </div>
         </FadeInUp>
 
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+        <StaggerContainer className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8 sm:gap-x-8 sm:gap-y-12">
           {steps.map((step, idx) => (
             <StaggerItem key={idx}>
               <div className="relative flex flex-col items-start group pl-6 sm:pl-0 border-l sm:border-l-0 border-white/10">
@@ -307,7 +307,7 @@ export default async function HomePage() {
                   {step.num}
                 </span>
                 <div className="hidden sm:block w-8 h-1 bg-indigo-500 mb-6 rounded-full group-hover:w-12 transition-all duration-300" />
-                <h3 className="text-lg sm:text-xl font-bold text-white mb-2 z-10 relative">
+                <h3 className="text-xs sm:text-xl font-bold text-white mb-2 z-10 relative">
                   <span className="sm:hidden absolute -left-8 top-2 w-4 h-4 rounded-full bg-indigo-500 border-4 border-background" />
                   {step.title}
                 </h3>
@@ -327,7 +327,7 @@ export default async function HomePage() {
             </h2>
           </div>
         </FadeInUp>
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <StaggerContainer className="grid grid-cols-2 gap-3 sm:gap-6 max-w-4xl mx-auto">
           {[
             {
               quote: "The mentoring they provided before my final viva was incredible. The examiner asked exactly what we discussed.",
@@ -341,12 +341,12 @@ export default async function HomePage() {
             }
           ].map((testimonial, idx) => (
             <StaggerItem key={idx}>
-              <div className="bg-slate-900/50 p-8 rounded-2xl border border-white/10 relative">
-                <div className="text-4xl text-indigo-500/20 absolute top-4 right-6 font-serif">"</div>
-                <p className="text-slate-300 italic mb-6 relative z-10 text-sm sm:text-base leading-relaxed">"{testimonial.quote}"</p>
+              <div className="bg-slate-900/50 p-3 sm:p-8 rounded-2xl border border-white/10 relative">
+                <div className="text-2xl sm:text-4xl text-indigo-500/20 absolute top-2 right-3 sm:top-4 sm:right-6 font-serif">"</div>
+                <p className="text-slate-300 italic mb-3 sm:mb-6 relative z-10 text-[9px] sm:text-base leading-relaxed">"{testimonial.quote}"</p>
                 <div>
-                  <p className="text-white font-bold text-sm sm:text-base">{testimonial.author}</p>
-                  <p className="text-slate-500 text-xs sm:text-sm">{testimonial.role}</p>
+                  <p className="text-white font-bold text-[10px] sm:text-base">{testimonial.author}</p>
+                  <p className="text-slate-500 text-[8px] sm:text-sm">{testimonial.role}</p>
                 </div>
               </div>
             </StaggerItem>
