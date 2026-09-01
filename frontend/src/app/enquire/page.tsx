@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { db, auth } from "@/lib/firebase";
 import { collection, getDocs, doc, setDoc, query, where, serverTimestamp, increment, updateDoc } from "firebase/firestore";
@@ -21,6 +21,7 @@ const fallbackProjectOptions: ProjectOption[] = [
 
 function EnquiryFormContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const preselectedProject = searchParams.get("project") || "";
 
   const [projectOptions, setProjectOptions] = useState<ProjectOption[]>(fallbackProjectOptions);
@@ -137,11 +138,13 @@ function EnquiryFormContent() {
     setAuthError("");
     setIsSubmitting(true);
     try {
+      let userCredential;
       if (authMode === "signup") {
-        await createUserWithEmailAndPassword(auth, email, authPassword);
+        userCredential = await createUserWithEmailAndPassword(auth, email, authPassword);
       } else {
-        await signInWithEmailAndPassword(auth, email, authPassword);
+        userCredential = await signInWithEmailAndPassword(auth, email, authPassword);
       }
+      document.cookie = `student_token=${await userCredential.user.getIdToken()}; path=/; max-age=604800`;
       setShowAuthModal(false);
       await submitToFirestore();
     } catch (err: any) {
@@ -230,6 +233,8 @@ function EnquiryFormContent() {
       }).catch(err => console.error("Email send failed:", err));
 
       setSuccessData({ id: enqShortId });
+      // Redirect to dashboard after successful submission
+      router.push("/student/dashboard");
     } catch (err) {
       setErrorMsg("Network error. Unable to submit enquiry to backend.");
     } finally {

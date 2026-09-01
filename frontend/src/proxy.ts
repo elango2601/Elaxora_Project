@@ -28,7 +28,7 @@ export function proxy(request: NextRequest) {
   }
 
   // Student Route Protection
-  if (path.startsWith('/student/dashboard') || path.startsWith('/enquire')) {
+  if (path.startsWith('/student/dashboard')) {
     const token = request.cookies.get('student_token')?.value;
     if (!token) {
       const loginUrl = new URL('/student/login', request.url);
@@ -43,5 +43,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/student/dashboard', '/enquire'],
+  matcher: ['/admin/:path*', '/student/dashboard'],
 };
