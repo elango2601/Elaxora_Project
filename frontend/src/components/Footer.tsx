@@ -4,9 +4,9 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/5 bg-slate-950/60 pt-16 pb-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+        <div className="flex flex-wrap md:flex-nowrap justify-between gap-y-8 gap-x-4 mb-12">
           {/* Brand Col */}
-          <div className="col-span-2 md:col-span-1">
+          <div className="w-full md:w-1/4 lg:w-1/3 pr-4">
             <Link href="/" className="flex items-center space-x-2 mb-4">
               <span className="text-xl font-bold tracking-tight text-white">
                 Elaxora<span className="text-brand-primary text-indigo-500">Solutions</span>
@@ -21,7 +21,7 @@ export default function Footer() {
           </div>
 
           {/* Services Col */}
-          <div className="col-span-1">
+          <div className="flex-1 min-w-[45%] md:min-w-0 px-2">
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Services</h3>
             <ul className="space-y-2 text-sm text-slate-400">
               <li>Project Development</li>
@@ -33,7 +33,7 @@ export default function Footer() {
           </div>
 
           {/* Resources Col */}
-          <div className="col-span-1">
+          <div className="flex-1 min-w-[45%] md:min-w-0 px-2">
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Resources</h3>
             <ul className="space-y-2 text-sm">
               <li>
@@ -60,7 +60,7 @@ export default function Footer() {
           </div>
 
           {/* Contact & Legal Col */}
-          <div className="col-span-1">
+          <div className="flex-1 min-w-[45%] md:min-w-0 px-2">
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Contact & Legal</h3>
             <ul className="space-y-3 text-sm">
               <li>
@@ -82,7 +82,7 @@ export default function Footer() {
           </div>
 
           {/* Support Col */}
-          <div className="col-span-1">
+          <div className="flex-1 min-w-[45%] md:min-w-0 px-2">
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Support</h3>
             <ul className="space-y-3 text-sm">
               <li>
