@@ -4,9 +4,9 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/5 bg-slate-950/60 pt-16 pb-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-8 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           {/* Brand Col */}
-          <div className="col-span-2 md:col-span-2">
+          <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center space-x-2 mb-4">
               <span className="text-xl font-bold tracking-tight text-white">
                 Elaxora<span className="text-brand-primary text-indigo-500">Solutions</span>
