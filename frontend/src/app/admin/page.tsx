@@ -53,11 +53,7 @@ export default function AdminDashboardPage() {
         });
       }
       
-      // Double check auth
-      if (!auth.currentUser) {
-         router.push("/admin/login");
-         return;
-      }
+      
 
 
       try {

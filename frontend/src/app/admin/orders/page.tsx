@@ -101,11 +101,7 @@ export default function AdminOrdersPage() {
         });
       }
       
-      // Double check auth
-      if (!auth.currentUser) {
-         router.push("/admin/login");
-         return;
-      }
+      
 
     try {
       const q = query(collection(db, "orders"));

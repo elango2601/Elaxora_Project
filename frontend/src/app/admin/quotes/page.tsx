@@ -49,11 +49,7 @@ export default function AdminQuotesPage() {
         });
       }
       
-      // Double check auth
-      if (!auth.currentUser) {
-         router.push("/admin/login");
-         return;
-      }
+      
 
       try {
         const q = query(collection(db, "quotes"));

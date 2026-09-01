@@ -59,11 +59,7 @@ export default function AdminReferralsPage() {
         });
       }
       
-      // Double check auth
-      if (!auth.currentUser) {
-         router.push("/admin/login");
-         return;
-      }
+      
 
     try {
       const querySnapshot = await getDocs(collection(db, "referrals"));

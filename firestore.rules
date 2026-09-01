@@ -27,9 +27,8 @@ service cloud.firestore {
     }
 
     match /quotes/{document=**} {
-      // Students can read their own quotes, Admin can do everything
-      allow read: if true;
-      allow write: if isAdmin();
+      allow read, update: if true;
+      allow create, delete: if isAdmin();
     }
 
     match /orders/{document=**} {

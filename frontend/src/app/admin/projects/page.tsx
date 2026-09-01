@@ -71,11 +71,7 @@ export default function AdminProjectsPage() {
         });
       }
       
-      // Double check auth
-      if (!auth.currentUser) {
-         router.push("/admin/login");
-         return;
-      }
+      
 
     try {
       const querySnapshot = await getDocs(collection(db, "projects"));

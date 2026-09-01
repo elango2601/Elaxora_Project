@@ -74,11 +74,7 @@ export default function AdminEnquiriesPage() {
         });
       }
       
-      // Double check auth
-      if (!auth.currentUser) {
-         router.push("/admin/login");
-         return;
-      }
+      
 
     try {
       const unsubscribe = onSnapshot(collection(db, "enquiries"), (querySnapshot) => {
