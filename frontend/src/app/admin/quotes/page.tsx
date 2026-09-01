@@ -67,7 +67,25 @@ export default function AdminQuotesPage() {
           console.error(err);
           setLoading(false);
         });
-        return () => unsubscribe();
+      
+  const handleExport = () => {
+    const headers = [
+      "Quote ID", "Enquiry ID", "Project Required", "Requirements", "Base Price",
+      "Expedited Cost", "Total Price", "Deliverable Date", "Status", "Created At"
+    ];
+    
+    const rows = filteredQuotes.map(q => [
+      q.id, q.enquiry_id, q.project_title, q.requirements, q.base_price,
+      q.expedited_delivery_cost || 0, q.total_price,
+      new Date(q.deliverable_date).toLocaleDateString(), q.status,
+      new Date(q.created_at).toLocaleString()
+    ]);
+    
+    exportToCSV("elaxora_quotes_history.csv", [headers, ...rows]);
+  };
+
+  return (
+) => unsubscribe();
       } catch (err) {
         console.error("Failed loading quotes", err);
         setLoading(false);
@@ -91,10 +109,19 @@ export default function AdminQuotesPage() {
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
       <AdminSidebar />
       <main className="flex-grow p-6 sm:p-8 space-y-8">
-        <div>
-          <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Financial Desk</span>
-          <h1 className="text-2xl font-extrabold text-foreground tracking-tight mt-1">Quotations Logs</h1>
-          <p className="text-muted text-xs">Review generated custom invoices, pricing, and student response statuses.</p>
+        <div className="flex justify-between items-end">
+          <div>
+            <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Financial Desk</span>
+            <h1 className="text-2xl font-extrabold text-foreground tracking-tight mt-1">Quotations Logs</h1>
+            <p className="text-muted text-xs">Review generated custom invoices, pricing, and student response statuses.</p>
+          </div>
+          <button
+            onClick={handleExport}
+            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-xs font-bold transition-colors shadow-lg"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            Export to Excel/CSV
+          </button>
         </div>
 
         {/* Filters Section */}

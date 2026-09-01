@@ -279,7 +279,7 @@ export default function StudentQuoteView() {
             </div>
 
             {quote.status !== "Accepted" && (
-              <div className="border-t border-white/5 pt-5 space-y-3">
+              <div className="print:hidden border-t border-white/5 pt-5 space-y-3">
                 <button
                   onClick={handleAccept}
                   disabled={isSubmitting}
