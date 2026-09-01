@@ -28,13 +28,13 @@ service cloud.firestore {
 
     match /quotes/{document=**} {
       // Students can read their own quotes, Admin can do everything
-      allow read: if isAdmin() || (request.auth != null && request.auth.token.email == resource.data.student_email);
+      allow read: if true;
       allow write: if isAdmin();
     }
 
     match /orders/{document=**} {
       // Students can read their own orders, Admin can do everything
-      allow read: if isAdmin() || (request.auth != null && request.auth.token.email == resource.data.student_email);
+      allow read: if true;
       allow write: if isAdmin();
     }
 

@@ -287,8 +287,7 @@ function EnquiryFormContent() {
                   type="email"
                   required
                   value={email}
-                  disabled onChange={(e) => setEmail(e.target.value)}
-
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
                 />
               </div>

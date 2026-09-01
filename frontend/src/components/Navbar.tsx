@@ -8,28 +8,7 @@ import MobileBottomNav from "./MobileBottomNav";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
-  // Load and apply initial theme
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("pf-theme") as "dark" | "light" | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.className = savedTheme;
-    } else {
-      const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const initialTheme = systemDark ? "dark" : "light";
-      setTheme(initialTheme);
-      document.documentElement.className = initialTheme;
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    localStorage.setItem("pf-theme", newTheme);
-    document.documentElement.className = newTheme;
-  };
 
   const links = [
     { name: "Home", href: "/" },
