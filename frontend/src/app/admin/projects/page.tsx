@@ -16,6 +16,7 @@ interface Project {
   difficulty: string;
   starting_price: number;
   technology: string[];
+  technologies?: string[];
   short_description: string;
   description: string;
   problem_statement: string;
@@ -24,6 +25,7 @@ interface Project {
   architecture: string;
   seo_title: string;
   seo_meta_description: string;
+  seo_description?: string;
   active: boolean;
 }
 
@@ -99,21 +101,26 @@ export default function AdminProjectsPage() {
 
   const handleEditClick = (p: Project) => {
     setEditingProjectId(p.id);
-    setTitle(p.title);
-    setSlug(p.slug);
-    setCategory(p.category);
-    setDepartment(p.department);
-    setDifficulty(p.difficulty);
-    setStartingPrice(p.starting_price.toString());
-    setTechString(p.technology.join(", "));
-    setShortDesc(p.short_description);
-    setDescription(p.description);
-    setProblemStatement(p.problem_statement);
-    setProposedSolution(p.proposed_solution);
-    setFeaturesString(p.features.join("\n"));
-    setArchitecture(p.architecture);
-    setSeoTitle(p.seo_title);
-    setSeoMeta(p.seo_meta_description);
+    setTitle(p.title || "");
+    setSlug(p.slug || "");
+    setCategory(p.category || "");
+    setDepartment(p.department || "");
+    setDifficulty(p.difficulty || "");
+    setStartingPrice(p.starting_price?.toString() || "");
+    
+    // Safely handle missing array fields that might crash the UI
+    const techArray = p.technology || p.technologies || [];
+    const featuresArray = p.features || [];
+    
+    setTechString(techArray.join(", "));
+    setShortDesc(p.short_description || "");
+    setDescription(p.description || "");
+    setProblemStatement(p.problem_statement || "");
+    setProposedSolution(p.proposed_solution || "");
+    setFeaturesString(featuresArray.join("\n"));
+    setArchitecture(p.architecture || "");
+    setSeoTitle(p.seo_title || "");
+    setSeoMeta(p.seo_meta_description || p.seo_description || "");
     
     setShowAddForm(true);
   };
