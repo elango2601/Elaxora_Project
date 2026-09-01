@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { db } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { projectsData } from "./data2";
 import { useRouter } from "next/navigation";
 import AdminSidebar from "@/components/AdminSidebar";
@@ -22,7 +22,8 @@ export default function SeedProjects() {
       let count = 0;
       
       for (const project of projectsData) {
-        await addDoc(colRef, {
+        const newDocRef = doc(colRef);
+        await setDoc(newDocRef, {
           ...project,
           created_at: serverTimestamp(),
           is_active: true
