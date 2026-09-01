@@ -14,6 +14,7 @@ interface Project {
   difficulty: string;
   starting_price: number;
   technology: string[];
+  technologies?: string[];
   short_description: string;
 }
 
