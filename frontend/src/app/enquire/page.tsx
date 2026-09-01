@@ -301,6 +301,8 @@ function EnquiryFormContent() {
     );
   }
 
+  const today = new Date().toISOString().split('T')[0];
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
 
@@ -457,6 +459,7 @@ function EnquiryFormContent() {
                 <input
                   type="date"
                   required
+                  min={today}
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
                   className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50"
