@@ -430,7 +430,7 @@ export default function AdminEnquiriesPage() {
                     )}
                     <div>
                       <span className="text-[10px] text-slate-500 block">Message Details</span>
-                      <p className="text-slate-400 p-2 bg-slate-950/30 rounded italic">{selectedEnquiry.message || "No additional message"}</p>
+                      <p className="text-slate-400 p-2 bg-slate-950/30 rounded italic">{selectedEnquiry.message ? selectedEnquiry.message.replace(`Enquiry for ${selectedEnquiry.project_id} project template.`, `Enquiry for ${projectsMap[selectedEnquiry.project_id] || selectedEnquiry.project_id} project template.`) : "No additional message"}</p>
                     </div>
                   </div>
 

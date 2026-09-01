@@ -21,8 +21,8 @@ export default function AdminSidebar() {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const payload = JSON.parse(window.atob(base64));
-        if (payload && payload.sub) {
-          setAdminEmail(payload.sub);
+        if (payload && payload.email) {
+          setAdminEmail(payload.email);
         }
       } catch (e) {
         // Fallback to default

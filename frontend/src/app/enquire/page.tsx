@@ -231,7 +231,7 @@ function EnquiryFormContent() {
         demo_video_required: demoRequired,
         additional_requirements: addRequirements,
         referral_code: refCode,
-        message: message || `Enquiry for ${projectSelected} project template.`,
+        message: message || `Enquiry for ${projectOptions.find(p => p.slug === projectSelected)?.title || projectSelected} project template.`,
         status: "New",
         notes: [],
         created_at: serverTimestamp()
