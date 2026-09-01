@@ -2,14 +2,14 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="text-white">
+    <footer className="text-white mt-16 md:mt-24">
       
       {/* Top Band - Logo & Description */}
-      <div className="bg-slate-800/50 border-t border-white/10">
-        <div className="max-w-[1400px] mx-auto px-6 py-8 lg:py-12 flex flex-col lg:flex-row items-center lg:items-start gap-8">
+      <div className="bg-[#151722] border-t border-white/10">
+        <div className="max-w-[1400px] mx-auto px-6 py-8 md:py-12 flex flex-col md:flex-row items-center md:items-start gap-8">
           
           {/* Logo Area */}
-          <div className="w-full lg:w-[25%] flex justify-center lg:justify-start">
+          <div className="w-full md:w-[25%] flex justify-center md:justify-start">
             <Link href="/" className="flex items-center space-x-2">
               <span className="text-3xl font-bold tracking-tight text-white">
                 Elaxora<span className="text-indigo-400">Solutions</span>
@@ -18,7 +18,7 @@ export default function Footer() {
           </div>
           
           {/* Text Description Area */}
-          <div className="w-full lg:w-[75%] text-sm text-slate-300 leading-relaxed text-center lg:text-left">
+          <div className="w-full md:w-[75%] text-sm text-slate-300 leading-relaxed text-center md:text-left">
             <p className="mb-2">
               Elaxora Solutions is an academic platform empowering engineering and computer applications students with innovative technology for project development. We help students efficiently build, customize, and understand their final-year projects.
             </p>
