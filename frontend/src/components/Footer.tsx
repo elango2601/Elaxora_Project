@@ -7,10 +7,10 @@ export default function Footer() {
       <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-400 opacity-80"></div>
 
       <div className="max-w-[1200px] mx-auto px-6 py-16 md:py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 lg:gap-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 lg:gap-16">
           
           {/* Column 1: Find us */}
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <h3 className="text-[17px] font-medium mb-8 text-white tracking-wide">Find us</h3>
             <Link href="/" className="inline-block mb-4">
               <span className="text-2xl font-bold tracking-tight text-white flex items-center hover:opacity-90 transition-opacity">
@@ -43,7 +43,7 @@ export default function Footer() {
           </div>
 
           {/* Column 2: Services */}
-          <div>
+          <div className="col-span-1">
             <h3 className="text-[17px] font-medium mb-8 text-white tracking-wide">Services</h3>
             <ul className="space-y-4 text-[14px] text-slate-400 font-medium">
               <li><span className="hover:text-indigo-400 cursor-pointer transition-colors block py-1 md:py-0">Project Development</span></li>
@@ -55,7 +55,7 @@ export default function Footer() {
           </div>
 
           {/* Column 3: Quick links */}
-          <div>
+          <div className="col-span-1">
             <h3 className="text-[17px] font-medium mb-8 text-white tracking-wide">Quick links</h3>
             <ul className="space-y-4 text-[14px] text-slate-400 font-medium">
               <li><Link href="/projects" className="hover:text-white transition-colors block py-1 md:py-0">Explore Projects</Link></li>
