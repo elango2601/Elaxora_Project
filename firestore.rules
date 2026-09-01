@@ -23,7 +23,7 @@ service cloud.firestore {
     
     match /enquiries/{document=**} {
       allow create: if true; // Anyone can submit an enquiry
-      allow read, update, delete: if isAdmin() || (request.auth != null && request.auth.token.email == resource.data.student_email);
+      allow read, update, delete: if isAdmin() || (request.auth != null && request.auth.token.email == resource.data.email);
     }
 
     match /quotes/{document=**} {

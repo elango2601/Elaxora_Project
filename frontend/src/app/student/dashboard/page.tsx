@@ -66,6 +66,13 @@ export default function StudentDashboard() {
         }
       } catch (err) {
         console.error("Dashboard fetch error", err);
+        // Fallback to empty data to prevent blank screen crash
+        setData({
+          profile: { name: user.displayName || "Student", email: user.email, college: "" },
+          enquiries: [],
+          quotes: [],
+          orders: []
+        } as DashboardData);
       } finally {
         setLoading(false);
       }
