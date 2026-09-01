@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "firebase-tools": "^15.27.0"
+  },
+  "dependencies": {
+    "glob": "^13.0.6"
   }
 }

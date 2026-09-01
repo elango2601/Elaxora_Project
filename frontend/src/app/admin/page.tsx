@@ -43,14 +43,19 @@ export default function AdminDashboardPage() {
         router.push("/admin/login");
         return;
       }
-      // Wait for Firebase auth to initialize before making queries
+            // Wait for Firebase auth to initialize before making queries
       if (!auth.currentUser) {
-        await new Promise(resolve => {
-          const unsub = onAuthStateChanged(auth, user => {
+        const user = await new Promise(resolve => {
+          const unsub = onAuthStateChanged(auth, u => {
             unsub();
-            resolve(user);
+            resolve(u);
           });
         });
+        if (!user) {
+          document.cookie = "admin_token=; path=/; max-age=0";
+          router.push("/admin/login");
+          return;
+        }
       }
       
       
@@ -135,7 +140,7 @@ export default function AdminDashboardPage() {
     );
   }
 
-  if (!summaryData) return null;
+  if (!summaryData) return <div className="p-8 text-white">Loading data or insufficient permissions... (Try logging out and logging back in)</div>;
 
   const kpiList = [
     { name: "Total Orders", val: summaryData.kpis.total_projects, icon: "📂", color: "text-amber-500" },

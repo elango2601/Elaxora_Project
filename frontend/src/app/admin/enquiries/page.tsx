@@ -64,14 +64,19 @@ export default function AdminEnquiriesPage() {
   };
 
   async function loadEnquiries(currentToken: string) {
-      // Wait for Firebase auth to initialize before making queries
+            // Wait for Firebase auth to initialize before making queries
       if (!auth.currentUser) {
-        await new Promise(resolve => {
-          const unsub = onAuthStateChanged(auth, user => {
+        const user = await new Promise(resolve => {
+          const unsub = onAuthStateChanged(auth, u => {
             unsub();
-            resolve(user);
+            resolve(u);
           });
         });
+        if (!user) {
+          document.cookie = "admin_token=; path=/; max-age=0";
+          router.push("/admin/login");
+          return;
+        }
       }
       
       
