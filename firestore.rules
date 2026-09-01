@@ -2,13 +2,17 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Function to check if the user is the Admin
+    // Function to check if the user is the Admin safely
     function isAdmin() {
-      return request.auth != null && (
-        request.auth.token.email.lower() == "elaxora11@gmail.com" || 
-        request.auth.token.email.lower() == "elango2601@gmail.com" ||
-        request.auth.token.email.lower() == "elangopugal26@gmail.com"
-      );
+      return request.auth != null && 
+             request.auth.token != null && 
+             request.auth.token.email != null && 
+             (
+               request.auth.token.email == "elaxora11@gmail.com" || 
+               request.auth.token.email == "Elaxora11@gmail.com" || 
+               request.auth.token.email == "elango2601@gmail.com" ||
+               request.auth.token.email == "elangopugal26@gmail.com"
+             );
     }
 
     match /projects/{document=**} {
@@ -23,7 +27,7 @@ service cloud.firestore {
     
     match /enquiries/{document=**} {
       allow create: if true; // Anyone can submit an enquiry
-      allow read, update, delete: if isAdmin() || (request.auth != null && request.auth.token.email == resource.data.email);
+      allow read, update, delete: if isAdmin() || (request.auth != null && request.auth.token != null && request.auth.token.email == resource.data.email);
     }
 
     match /quotes/{document=**} {
