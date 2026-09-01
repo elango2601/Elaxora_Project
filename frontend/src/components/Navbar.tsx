@@ -62,13 +62,13 @@ export default function Navbar() {
             <div className="hidden md:flex items-center space-x-4">
               <Link
                 href="/student/login"
-                className="text-xs font-bold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg transition-colors border border-slate-700"
+                className="text-sm font-bold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg transition-colors border border-slate-700"
               >
                 Student Portal
               </Link>
               <Link
                 href="/enquire"
-                className="gradient-btn px-4 py-2 text-sm font-semibold rounded-lg text-white"
+                className="gradient-btn px-4 py-2 text-sm font-bold rounded-lg text-white"
               >
                 Get a Quote
               </Link>
@@ -131,14 +131,14 @@ export default function Navbar() {
           <Link
             href="/student/login"
             onClick={() => setIsOpen(false)}
-            className="text-xs font-bold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-2.5 rounded-lg text-center transition-colors border border-slate-700"
+            className="text-sm font-bold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-4 py-2.5 rounded-lg text-center transition-colors border border-slate-700"
           >
             Student Portal
           </Link>
           <Link
             href="/enquire"
             onClick={() => setIsOpen(false)}
-            className="gradient-btn text-center px-4 py-2.5 text-sm font-semibold rounded-lg text-white"
+            className="gradient-btn text-center px-4 py-2.5 text-sm font-bold rounded-lg text-white"
           >
             Get a Quote
           </Link>

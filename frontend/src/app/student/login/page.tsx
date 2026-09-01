@@ -172,14 +172,6 @@ function StudentLoginForm() {
           <p className="text-lg text-slate-300 leading-relaxed mb-8 max-w-md">
             Track your custom project milestones in real-time, communicate directly with our engineers, and manage your scope securely.
           </p>
-          <div className="flex items-center gap-4 text-sm text-slate-400">
-            <div className="flex -space-x-2">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="w-8 h-8 rounded-full border-2 border-slate-900 bg-slate-800" />
-              ))}
-            </div>
-            <span>Join 500+ students building with us</span>
-          </div>
         </div>
       </div>
 

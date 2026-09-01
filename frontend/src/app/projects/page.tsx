@@ -245,22 +245,31 @@ export default function ProjectsCatalog() {
         </p>
       </div>
 
-      {/* Mobile-Only Filter Control Row */}
-      <div className="lg:hidden flex items-center justify-between gap-3 mb-6">
+            {/* Mobile-Only Filter Control Row */}
+      <div className="lg:hidden flex overflow-x-auto pb-4 mb-6 gap-2 w-full no-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <button 
+          onClick={() => setSelectedCat("")}
+          className={`whitespace-nowrap px-4 py-2 rounded-full text-[10px] font-bold border transition-colors ${selectedCat === "" ? 'bg-indigo-600 border-indigo-500 text-white' : 'bg-slate-900 border-slate-700 text-slate-400'}`}
+        >
+          All Projects
+        </button>
+        {categories.map(cat => (
+          <button
+            key={cat}
+            onClick={() => {
+              setSelectedCat(selectedCat === cat ? "" : cat)
+            }}
+            className={`whitespace-nowrap px-4 py-2 rounded-full text-[10px] font-bold border transition-colors ${selectedCat === cat ? 'bg-indigo-600 border-indigo-500 text-white' : 'bg-slate-900 border-slate-700 text-slate-400'}`}
+          >
+            {cat}
+          </button>
+        ))}
         <button
           onClick={() => setShowMobileFilters(true)}
-          className="flex items-center justify-center gap-2 w-full rounded-xl bg-slate-900/60 border border-card-border py-3 text-xs font-bold text-foreground hover:bg-slate-800 transition-colors"
+          className="whitespace-nowrap px-4 py-2 rounded-full text-[10px] font-bold border border-slate-700 bg-slate-900 text-white flex items-center gap-1"
         >
-          🎛️ Filter Projects {activeFiltersCount > 0 && `(${activeFiltersCount})`}
+          ⚙️ More Filters {activeFiltersCount > 0 && `(${activeFiltersCount})`}
         </button>
-        {activeFiltersCount > 0 && (
-          <button
-            onClick={resetFilters}
-            className="text-xs text-indigo-500 font-bold whitespace-nowrap px-2"
-          >
-            Clear ({activeFiltersCount})
-          </button>
-        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -283,9 +292,9 @@ export default function ProjectsCatalog() {
         {/* Projects Cards Grid */}
         <div className="lg:col-span-3">
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="glass-card p-6 h-56 animate-pulse bg-slate-900/40" />
+                <div key={i} className="glass-card p-4 sm:p-6 h-56 animate-pulse bg-slate-900/40" />
               ))}
             </div>
           ) : filteredProjects.length === 0 ? (
@@ -299,9 +308,9 @@ export default function ProjectsCatalog() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
               {filteredProjects.map((p) => (
-                <div key={p.id} className="glass-card glass-card-hover p-5 flex flex-col justify-between h-full space-y-4">
+                <div key={p.id} className="glass-card glass-card-hover p-3 sm:p-5 flex flex-col justify-between h-full space-y-4">
                   <div className="space-y-2">
                     <div className="flex justify-between items-start gap-2">
                       <span className="rounded bg-indigo-500/10 px-2.5 py-0.5 text-[10px] font-bold text-indigo-400 border border-indigo-500/20">
@@ -309,13 +318,13 @@ export default function ProjectsCatalog() {
                       </span>
                       <span className="text-[10px] text-muted font-semibold">{p.department} | {p.difficulty}</span>
                     </div>
-                    <h3 className="text-base font-bold text-foreground line-clamp-1">{p.title}</h3>
-                    <p className="text-muted text-xs line-clamp-3 leading-relaxed">
+                    <h3 className="text-xs sm:text-base font-bold text-foreground line-clamp-1 sm:line-clamp-2">{p.title}</h3>
+                    <p className="text-muted text-[10px] sm:text-xs line-clamp-2 sm:line-clamp-3 leading-relaxed">
                       {p.short_description}
                     </p>
                   </div>
                   
-                  <div className="pt-4 border-t border-card-border flex items-center justify-between">
+                  <div className="pt-3 sm:pt-4 border-t border-card-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 sm:gap-0">
                     <div>
                       <span className="block text-[9px] text-muted uppercase font-bold tracking-wider">Starts From</span>
                       <span className="text-base font-bold text-indigo-500">
