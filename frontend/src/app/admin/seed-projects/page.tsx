@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { projectsData } from "./data";
+import { projectsData } from "./data2";
 import { useRouter } from "next/navigation";
 
 export default function SeedProjects() {
@@ -13,7 +13,7 @@ export default function SeedProjects() {
 
   const handleSeed = async () => {
     setLoading(true);
-    setStatus("Starting to upload 15 projects...");
+    setStatus("Starting to upload 10 projects...");
     
     try {
       const colRef = collection(db, "projects");
@@ -29,7 +29,7 @@ export default function SeedProjects() {
         setStatus(`Uploaded ${count} of ${projectsData.length}...`);
       }
       
-      setStatus("Success! All 15 projects have been added to the database.");
+      setStatus("Success! All 10 projects have been added to the database.");
       setTimeout(() => {
         router.push("/admin/projects");
       }, 3000);
