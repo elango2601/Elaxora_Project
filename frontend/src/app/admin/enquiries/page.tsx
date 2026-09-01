@@ -35,6 +35,7 @@ export default function AdminEnquiriesPage() {
   
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [projectsMap, setProjectsMap] = useState<Record<string, string>>({});
   const [token, setToken] = useState("");
 
   // Detailed modal/drawer states
@@ -83,6 +84,12 @@ export default function AdminEnquiriesPage() {
       
 
     try {
+      const projSnap = await getDocs(collection(db, "projects"));
+      const pMap: Record<string, string> = {};
+      projSnap.forEach(doc => { pMap[doc.id] = doc.data().title; });
+      setProjectsMap(pMap);
+
+
       const unsubscribe = onSnapshot(collection(db, "enquiries"), (querySnapshot) => {
         const list = querySnapshot.docs.map(docSnap => {
           const data = docSnap.data();
@@ -254,7 +261,7 @@ export default function AdminEnquiriesPage() {
   const handleExport = () => {
     const headers = ["Enquiry ID", "Name", "Email", "WhatsApp", "College", "Department", "Year", "Project Selected", "Preferred Tech", "Budget", "Deadline", "Deployment Reqd", "Demo Reqd", "Referral", "Message", "Additional Req", "Status", "Date"];
     const rows = enquiries.map((e: any) => [
-      e.id, e.full_name, e.email, e.whatsapp_number, e.college_name, e.department, e.year, e.project_id, e.preferred_technology, e.budget_range, e.required_deadline, e.deployment_required ? "Yes" : "No", e.demo_video_required ? "Yes" : "No", e.referral_code, e.message, e.additional_requirements, e.status, e.created_at ? new Date((e.created_at as any).seconds * 1000).toLocaleString() : ""
+      e.id, e.full_name, e.email, e.whatsapp_number, e.college_name, e.department, e.year, projectsMap[e.project_id] || e.project_id, e.preferred_technology, e.budget_range, e.required_deadline, e.deployment_required ? "Yes" : "No", e.demo_video_required ? "Yes" : "No", e.referral_code, e.message, e.additional_requirements, e.status, e.created_at ? new Date((e.created_at as any).seconds * 1000).toLocaleString() : ""
     ]);
     exportToCSV("elaxora_enquiries.csv", [headers, ...rows]);
   };
@@ -319,7 +326,7 @@ export default function AdminEnquiriesPage() {
                             <span className="text-[10px] text-slate-500 block">{e.department}</span>
                           </td>
                           <td className="p-4">
-                            <span className="text-indigo-400 block font-semibold">{e.project_id}</span>
+                            <span className="text-indigo-400 block font-semibold">{projectsMap[e.project_id] || e.project_id}</span>
                             <span className="text-[10px] text-slate-500 block">Est: {e.budget_range}</span>
                           </td>
                           <td className="p-4">
@@ -397,7 +404,7 @@ export default function AdminEnquiriesPage() {
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-500 block">Requested Baseline Project</span>
-                      <span className="text-white font-semibold">{selectedEnquiry.project_id}</span>
+                      <span className="text-white font-semibold">{projectsMap[selectedEnquiry.project_id] || selectedEnquiry.project_id}</span>
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-500 block">Preferred Technology</span>
