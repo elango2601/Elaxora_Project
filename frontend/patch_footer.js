@@ -1,4 +1,6 @@
-import Link from "next/link";
+const fs = require('fs');
+
+const code = `import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -115,3 +117,7 @@ export default function Footer() {
     </footer>
   );
 }
+`;
+
+fs.writeFileSync('src/components/Footer.tsx', code);
+console.log('Footer patched!');
