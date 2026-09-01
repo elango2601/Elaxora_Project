@@ -7,6 +7,7 @@ import AdminSidebar from "@/components/AdminSidebar";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { exportToCSV } from "@/lib/exportUtils";
 
 interface Quote {
   id: string;
@@ -72,25 +73,7 @@ export default function AdminQuotesPage() {
           console.error(err);
           setLoading(false);
         });
-      
-  const handleExport = () => {
-    const headers = [
-      "Quote ID", "Enquiry ID", "Project Required", "Requirements", "Base Price",
-      "Expedited Cost", "Total Price", "Deliverable Date", "Status", "Created At"
-    ];
-    
-    const rows = filteredQuotes.map(q => [
-      q.id, q.enquiry_id, q.project_title, q.requirements, q.base_price,
-      q.expedited_delivery_cost || 0, q.total_price,
-      new Date(q.deliverable_date).toLocaleDateString(), q.status,
-      new Date(q.created_at).toLocaleString()
-    ]);
-    
-    exportToCSV("elaxora_quotes_history.csv", [headers, ...rows]);
-  };
-
-  return (
-) => unsubscribe();
+    return () => unsubscribe();
       } catch (err) {
         console.error("Failed loading quotes", err);
         setLoading(false);
@@ -109,6 +92,14 @@ export default function AdminQuotesPage() {
     if (selectedStatus && q.status !== selectedStatus) return false;
     return true;
   });
+
+  const handleExport = () => {
+    const headers = ["Quote ID", "Enquiry ID", "Project Required", "Requirements", "Base Price", "Expedited Cost", "Total Price", "Deliverable Date", "Status", "Created At"];
+    const rows = filteredQuotes.map((q: any) => [
+      q.id, q.enquiry_id, q.project_id, q.scope_of_work, q.base_price, q.custom_changes_cost || 0, q.final_price, new Date(q.created_at).toLocaleDateString(), q.status, new Date(q.created_at).toLocaleString()
+    ]);
+    exportToCSV("elaxora_quotes_history.csv", [headers, ...rows]);
+  };
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">

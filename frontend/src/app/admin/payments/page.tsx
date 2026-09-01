@@ -6,6 +6,7 @@ import AdminSidebar from "@/components/AdminSidebar";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, onSnapshot, query } from "firebase/firestore";
+import { exportToCSV } from "@/lib/exportUtils";
 
 interface Payment {
   order_id: string;
@@ -86,22 +87,7 @@ export default function AdminPaymentsPage() {
           console.error(err);
           setLoading(false);
         });
-      
-  const handleExport = () => {
-    const headers = [
-      "Order ID", "Student Name", "Phase", "Method", "Amount Paid", "Date Recorded", "Recorded By"
-    ];
-    
-    const rows = filteredPayments.map(p => [
-      p.order_id, p.student_name, p.phase, p.method, p.amount,
-      new Date(p.recorded_at).toLocaleString(), p.recorded_by
-    ]);
-    
-    exportToCSV("elaxora_payments_history.csv", [headers, ...rows]);
-  };
-
-  return (
-) => unsubscribe();
+    return () => unsubscribe();
       } catch (err) {
         console.error("Failed loading payments", err);
         setLoading(false);
@@ -120,6 +106,14 @@ export default function AdminPaymentsPage() {
     if (selectedPhase && p.phase !== selectedPhase) return false;
     return true;
   });
+
+  const handleExport = () => {
+    const headers = ["Order ID", "Student Name", "Phase", "Method", "Amount Paid", "Date Recorded", "Recorded By"];
+    const rows = filteredPayments.map((p: any) => [
+      p.order_id, p.student_name, p.phase, p.payment_method, p.amount, new Date(p.recorded_at).toLocaleString(), p.recorded_at
+    ]);
+    exportToCSV("elaxora_payments_history.csv", [headers, ...rows]);
+  };
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">

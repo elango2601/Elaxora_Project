@@ -6,6 +6,7 @@ import AdminSidebar from "@/components/AdminSidebar";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs, doc, updateDoc, addDoc, onSnapshot } from "firebase/firestore";
+import { exportToCSV } from "@/lib/exportUtils";
 
 interface Enquiry {
   id: string;
@@ -117,27 +118,7 @@ export default function AdminEnquiriesPage() {
     loadEnquiries(t).then(res => {
       unsub = res;
     });
-  
-  const handleExport = () => {
-    const headers = [
-      "Enquiry ID", "Name", "Email", "WhatsApp", "College", "Department", "Year",
-      "Project Selected", "Preferred Tech", "Budget", "Deadline",
-      "Deployment Reqd", "Demo Reqd", "Referral", "Message", "Additional Req", "Status", "Date"
-    ];
-    
-    const rows = enquiries.map(e => [
-      e.id, e.name, e.email, e.whatsapp, e.college, e.department, e.year,
-      e.project_selected, e.preferred_tech, e.budget, e.deadline,
-      e.deployment_required ? "Yes" : "No", e.demo_required ? "Yes" : "No",
-      e.referral, e.message, e.add_requirements, e.status,
-      e.created_at ? new Date(e.created_at.seconds * 1000).toLocaleString() : ""
-    ]);
-    
-    exportToCSV("elaxora_enquiries.csv", [headers, ...rows]);
-  };
-
-  return (
-) => {
+    return () => {
       if (unsub) unsub();
     };
   }, [router]);
@@ -268,6 +249,14 @@ export default function AdminEnquiriesPage() {
     } catch (err: any) {
       alert("Error sending quote parameters: " + err.message);
     }
+  };
+
+  const handleExport = () => {
+    const headers = ["Enquiry ID", "Name", "Email", "WhatsApp", "College", "Department", "Year", "Project Selected", "Preferred Tech", "Budget", "Deadline", "Deployment Reqd", "Demo Reqd", "Referral", "Message", "Additional Req", "Status", "Date"];
+    const rows = enquiries.map((e: any) => [
+      e.id, e.full_name, e.email, e.whatsapp_number, e.college_name, e.department, e.year, e.project_id, e.preferred_technology, e.budget_range, e.required_deadline, e.deployment_required ? "Yes" : "No", e.demo_video_required ? "Yes" : "No", e.referral_code, e.message, e.additional_requirements, e.status, e.created_at ? new Date((e.created_at as any).seconds * 1000).toLocaleString() : ""
+    ]);
+    exportToCSV("elaxora_enquiries.csv", [headers, ...rows]);
   };
 
   return (

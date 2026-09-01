@@ -6,6 +6,7 @@ import AdminSidebar from "@/components/AdminSidebar";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
+import { exportToCSV } from "@/lib/exportUtils";
 
 interface Customer {
   name: string;
@@ -104,9 +105,9 @@ export default function AdminCustomersPage() {
       "Total Active Orders", "Total Spent (₹)", "Joined Date"
     ];
     
-    const rows = filteredCustomers.map(c => [
-      c.uid, c.name, c.email, c.phone, c.college, c.department,
-      c.metrics.active_orders, c.metrics.total_spent,
+    const rows = filteredCustomers.map((c: any) => [
+      c.id, c.name, c.email, c.mobile_number, c.college, c.state,
+      c.created_at, "",
       new Date(c.created_at).toLocaleDateString()
     ]);
     
