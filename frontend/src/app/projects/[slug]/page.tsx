@@ -365,7 +365,7 @@ export default function ProjectDetails() {
                 <div>
                   <h2 className="text-sm font-bold text-white mb-3 uppercase tracking-wider">Key Deliverable Features</h2>
                   <ul className="grid grid-cols-2 md:grid-cols-2 gap-3">
-                    {project.features.map((feat, idx) => (
+                    {(project.features || []).map((feat, idx) => (
                       <li key={idx} className="flex items-start text-[10px] sm:text-sm text-slate-400 gap-1.5 leading-normal">
                         <span className="text-emerald-500">✓</span>
                         <span className="line-clamp-3">{feat}</span>
@@ -387,7 +387,7 @@ export default function ProjectDetails() {
                 <div>
                   <h2 className="text-sm font-bold text-white mb-3 uppercase tracking-wider">Modules Breakdown</h2>
                   <div className="grid grid-cols-2 md:grid-cols-1 gap-3.5 md:space-y-4">
-                    {project.modules.map((mod, idx) => (
+                    {(project.modules || []).map((mod, idx) => (
                       <div key={idx} className="glass-card p-4 h-full flex flex-col justify-between">
                         <div>
                           <h4 className="text-xs sm:text-sm font-bold text-indigo-300 mb-1 leading-tight">{mod.name}</h4>
@@ -401,7 +401,7 @@ export default function ProjectDetails() {
                 <div>
                   <h2 className="text-sm font-bold text-white mb-3 uppercase tracking-wider">Project Workflow Steps</h2>
                   <ol className="grid grid-cols-2 md:grid-cols-1 gap-3.5 md:space-y-3">
-                    {project.workflow.map((step, idx) => (
+                    {(project.workflow || []).map((step, idx) => (
                       <li key={idx} className="flex items-start text-[10px] sm:text-sm text-slate-400 gap-2 leading-tight">
                         <span className="font-bold text-indigo-500 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded text-[8px] sm:text-xs select-none shrink-0">
                           {idx + 1}
@@ -420,7 +420,7 @@ export default function ProjectDetails() {
                 <div>
                   <h2 className="text-xs sm:text-lg font-bold text-white mb-3 sm:mb-4 uppercase tracking-wider">Base Package</h2>
                   <ul className="space-y-2.5">
-                    {project.whats_included.map((inc, idx) => (
+                    {(project.whats_included || []).map((inc, idx) => (
                       <li key={idx} className="flex items-start text-[10px] sm:text-sm text-slate-400 gap-1.5">
                         <span className="text-indigo-500 font-bold">✓</span>
                         <span className="line-clamp-2">{inc}</span>
@@ -432,7 +432,7 @@ export default function ProjectDetails() {
                 <div>
                   <h2 className="text-xs sm:text-lg font-bold text-white mb-3 sm:mb-4 uppercase tracking-wider">Custom Add-ons</h2>
                   <ul className="space-y-2.5">
-                    {project.optional_services.map((srv, idx) => (
+                    {(project.optional_services || []).map((srv, idx) => (
                       <li key={idx} className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-[10px] sm:text-sm text-slate-400 border-b border-card-border pb-1.5 sm:pb-2 gap-0.5 sm:gap-2">
                         <span className="line-clamp-1">{srv.name}</span>
                         <span className="font-bold text-indigo-400 shrink-0">+₹{srv.price.toLocaleString("en-IN")}</span>
@@ -445,7 +445,7 @@ export default function ProjectDetails() {
 
             {activeTab === "faq" && (
               <div className="grid grid-cols-2 md:grid-cols-1 gap-3.5 md:space-y-6">
-                {project.faq.map((f, idx) => (
+                {(project.faq || []).map((f, idx) => (
                   <div key={idx} className="glass-card p-4 sm:p-5 h-full flex flex-col justify-between">
                     <div>
                       <h4 className="text-xs sm:text-sm font-bold text-white mb-1.5 leading-tight">{f.question}</h4>
@@ -477,7 +477,7 @@ export default function ProjectDetails() {
             <div className="border-t border-white/5 pt-5 space-y-4">
               <h3 className="text-sm font-bold text-white">Baseline Tech Stack</h3>
               <div className="flex flex-wrap gap-1.5">
-                {project.technology.map((tech, i) => (
+                {(project.technology || project.technologies || []).map((tech, i) => (
                   <span key={i} className="text-xs font-semibold bg-slate-900 border border-white/5 rounded px-2.5 py-1 text-slate-400">
                     {tech}
                   </span>

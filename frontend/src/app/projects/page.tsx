@@ -121,7 +121,8 @@ export default function ProjectsCatalog() {
       const q = search.toLowerCase();
       const matchTitle = p.title.toLowerCase().includes(q);
       const matchDesc = p.short_description.toLowerCase().includes(q);
-      const matchTech = p.technology.some((t) => t.toLowerCase().includes(q));
+      const techArray = p.technology || p.technologies || [];
+      const matchTech = techArray.some((t: string) => t.toLowerCase().includes(q));
       const matchCat = p.category.toLowerCase().includes(q);
       if (!matchTitle && !matchDesc && !matchTech && !matchCat) return false;
     }
