@@ -20,7 +20,7 @@ export default function AdminLogin() {
     
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      document.cookie = `admin_token=${await userCredential.user.getIdToken()}; path=/; max-age=604800`;
+      document.cookie = `admin_token=${await userCredential.user.getIdToken()}; path=/; max-age=31536000`;
       router.push("/admin/enquiries");
     } catch (err: any) {
       setError("Invalid admin credentials.");

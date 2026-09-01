@@ -64,7 +64,7 @@ function StudentLoginForm() {
   }, [router, redirectUrl]);
 
   const handleAuthSuccess = async (userCredential: any) => {
-    document.cookie = `student_token=${await userCredential.user.getIdToken()}; path=/; max-age=604800`;
+    document.cookie = `student_token=${await userCredential.user.getIdToken()}; path=/; max-age=31536000`;
     router.push(redirectUrl);
   };
 
