@@ -134,6 +134,15 @@ export default function AdminProjectsPage() {
     setShowAddForm(false);
   };
 
+  const handleToggleActive = async (projectId: string, currentStatus: boolean) => {
+    try {
+      await updateDoc(doc(db, "projects", projectId), { active: !currentStatus });
+      setProjects(projects.map((p) => (p.id === projectId ? { ...p, active: !currentStatus } : p)));
+    } catch (err: any) {
+      alert("Failed to toggle status: " + err.message);
+    }
+  };
+
   const handleDelete = async () => {
     if (!editingProjectId) return;
     if (!window.confirm("Are you sure you want to delete this project? This cannot be undone.")) return;
@@ -457,13 +466,17 @@ export default function AdminProjectsPage() {
                         <td className="p-4 text-slate-400">{p.department}</td>
                         <td className="p-4 text-indigo-400 font-bold">₹{p.starting_price.toLocaleString("en-IN")}</td>
                         <td className="p-4">
-                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                            p.active 
-                              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" 
-                              : "bg-slate-900 text-slate-500 border border-white/5"
-                          }`}>
+                          <button
+                            onClick={() => handleToggleActive(p.id!, p.active)}
+                            title="Click to toggle status"
+                            className={`px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer transition-all hover:scale-105 ${
+                              p.active 
+                                ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20" 
+                                : "bg-slate-900 text-slate-500 border border-white/5 hover:bg-slate-800"
+                            }`}
+                          >
                             {p.active ? "Active" : "Inactive"}
-                          </span>
+                          </button>
                         </td>
                         <td className="p-4">
                           <button
