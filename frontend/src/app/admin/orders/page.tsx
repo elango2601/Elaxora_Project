@@ -354,8 +354,8 @@ export default function AdminOrdersPage() {
                               <span className="text-[10px] text-slate-500 block">Scope: {o.scope_status}</span>
                             </td>
                             <td className="p-4">
-                              <span className="text-white block font-bold">₹{o.price.toLocaleString("en-IN")}</span>
-                              <span className="text-[10px] text-slate-500 block">Due: ₹{balance.toLocaleString("en-IN")}</span>
+                              <span className="text-white block font-bold">₹{(o.price || 0).toLocaleString("en-IN")}</span>
+                              <span className="text-[10px] text-slate-500 block">Due: ₹{(balance || 0).toLocaleString("en-IN")}</span>
                             </td>
                             <td className="p-4">
                               <div className="flex items-center gap-2">
