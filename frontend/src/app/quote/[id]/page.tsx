@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { db } from "@/lib/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 
 interface Milestone {
   name: string;
@@ -78,18 +78,61 @@ export default function StudentQuoteView() {
     if (!quote) return;
     setIsSubmitting(true);
     try {
-      const docRef = doc(db, "quotes", quote.id);
-      await updateDoc(docRef, { status: "Accepted" });
+      // 1. Mark quote as accepted
+      const quoteRef = doc(db, "quotes", quote.id);
+      await updateDoc(quoteRef, { status: "Accepted" });
+      
+      // 2. Fetch original enquiry to build the order
+      const enqRef = doc(db, "enquiries", quote.enquiry_id);
+      const enqSnap = await getDoc(enqRef);
+      const enqData = enqSnap.exists() ? enqSnap.data() : {};
+      
+      // 3. Create the active order document
+      const orderId = `PF-ORD-${quote.id.split("-").pop()}`;
+      const orderRef = doc(db, "orders", orderId);
+      
+      await setDoc(orderRef, {
+        id: orderId,
+        enquiry_id: quote.enquiry_id,
+        quote_id: quote.id,
+        student_name: enqData.full_name || "Unknown",
+        student_email: enqData.email || "Unknown",
+        student_whatsapp: enqData.whatsapp_number || "Unknown",
+        project_title: enqData.project_id || "Custom Project",
+        scope_status: "PENDING_LOCK",
+        features: [],
+        technology: enqData.preferred_technology ? [enqData.preferred_technology] : [],
+        deliverables: ["Source Code", "Documentation"],
+        price: quote.final_price,
+        advance_paid: false,
+        payment_status: "Advance Pending",
+        order_status: "Advance Pending",
+        progress_percent: 0,
+        milestones: quote.milestones || [],
+        payments: [],
+        revision_count_limit: 2,
+        revision_count_used: 0,
+        revisions: [],
+        change_requests: [],
+        referral_code: enqData.referral_code || "",
+        created_at: new Date().toISOString()
+      }, { merge: true });
+
+      // 4. Update enquiry status to Accepted
+      if (enqSnap.exists()) {
+        await updateDoc(enqRef, { status: "Accepted" });
+      }
       
       // Redirection to the live status page
-      const orderId = `PF-ORD-${quote.id.split("-").pop()}`;
       router.push(`/status/${orderId}`);
     } catch (err) {
+      console.error(err);
       alert("Error contacting quotation server.");
     } finally {
       setIsSubmitting(false);
     }
   };
+
 
   const handleRejectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
