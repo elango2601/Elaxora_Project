@@ -149,18 +149,18 @@ export default function AdminOrdersPage() {
   // Sync state with selected order
   useEffect(() => {
     if (selectedOrder) {
-      setOrderStatus(selectedOrder.order_status);
-      setProgressPercent(selectedOrder.progress_percent);
+      setOrderStatus(selectedOrder.order_status || "Pending");
+      setProgressPercent(selectedOrder.progress_percent || 0);
       
       // Auto populate payment amount suggestion based on balance
       if (!selectedOrder.payments || selectedOrder.payments.length === 0) {
         // Suggest advance payment amount
-        const suggestAdvance = selectedOrder.price * 0.4;
+        const suggestAdvance = (selectedOrder.price || 0) * 0.4;
         setPayAmount(suggestAdvance.toString());
       } else {
         // Suggest remaining price
-        const totalPaid = selectedOrder.payments.reduce((acc, p) => acc + p.amount, 0);
-        const balance = selectedOrder.price - totalPaid;
+        const totalPaid = (selectedOrder.payments || []).reduce((acc, p) => acc + p.amount, 0);
+        const balance = (selectedOrder.price || 0) - totalPaid;
         setPayAmount(balance > 0 ? balance.toString() : "0");
       }
     }
