@@ -26,6 +26,10 @@ function EnquiryFormContent() {
 
   const [projectOptions, setProjectOptions] = useState<ProjectOption[]>(fallbackProjectOptions);
   
+  // Step Management
+  const [formStep, setFormStep] = useState<1 | 2>(1);
+  const [enqId, setEnqId] = useState("");
+
   // Form Fields State
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -48,7 +52,6 @@ function EnquiryFormContent() {
   const [successData, setSuccessData] = useState<{ id: string } | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
   
-
   // Referral validation state
   const [refChecking, setRefChecking] = useState(false);
   const [refValData, setRefValData] = useState<{ valid: boolean; discount_percentage: number; name?: string; message?: string } | null>(null);
@@ -59,6 +62,10 @@ function EnquiryFormContent() {
   const [authMode, setAuthMode] = useState<"login"|"signup">("signup");
   const [authError, setAuthError] = useState("");
 
+  // Initialization
+  useEffect(() => {
+    setEnqId(`PF-ENQ-${Math.floor(1000 + Math.random() * 9000)}`);
+  }, []);
 
   // Fetch project options from API
   useEffect(() => {
@@ -132,8 +139,38 @@ function EnquiryFormContent() {
     }
   };
 
-  // Auth Submission handler
-  
+  // --- STEP 1 SUBMIT ---
+  const handleStep1Submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!fullName.trim() || !email.trim() || !whatsapp.trim()) {
+      setErrorMsg("Please fill in your name, email, and WhatsApp.");
+      return;
+    }
+    setErrorMsg("");
+    setIsSubmitting(true);
+    
+    try {
+      // Save partial lead quietly
+      await setDoc(doc(db, "enquiries", enqId), {
+        id: enqId,
+        full_name: fullName,
+        email: email,
+        whatsapp_number: whatsapp,
+        status: "Partial",
+        created_at: serverTimestamp()
+      }, { merge: true });
+      
+      setFormStep(2);
+    } catch(e) {
+      console.error(e);
+      // Even if network fails or rules block it momentarily, just proceed to step 2 visually to keep conversion high
+      setFormStep(2); 
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // --- Auth Submission handler ---
   const handleGoogleAuthAndSubmit = async () => {
     setAuthError("");
     setIsSubmitting(true);
@@ -142,12 +179,21 @@ function EnquiryFormContent() {
       const userCredential = await signInWithPopup(auth, provider);
       document.cookie = `student_token=${await userCredential.user.getIdToken()}; path=/; max-age=31536000`;
       
-      // Also prefill email and name from Google just in case they were empty
-      if (userCredential.user.email) setEmail(userCredential.user.email);
+      let finalId = enqId;
+      let finalEmail = email;
+
+      if (userCredential.user.email) {
+        finalEmail = userCredential.user.email;
+        if (userCredential.user.email !== email) {
+          finalId = `PF-ENQ-${Math.floor(1000 + Math.random() * 9000)}`;
+          setEnqId(finalId);
+          setEmail(finalEmail);
+        }
+      }
       if (userCredential.user.displayName) setFullName(userCredential.user.displayName);
 
       setShowAuthModal(false);
-      await submitToFirestore();
+      await submitToFirestore(finalId, userCredential.user.uid, finalEmail);
     } catch (err: any) {
       setAuthError(err.message || "Google Authentication failed. Please try again.");
       setIsSubmitting(false);
@@ -167,7 +213,7 @@ function EnquiryFormContent() {
       }
       document.cookie = `student_token=${await userCredential.user.getIdToken()}; path=/; max-age=31536000`;
       setShowAuthModal(false);
-      await submitToFirestore();
+      await submitToFirestore(enqId, userCredential.user.uid, email);
     } catch (err: any) {
       setAuthError(err.message || "Authentication failed. Please try again.");
       setIsSubmitting(false);
@@ -179,8 +225,7 @@ function EnquiryFormContent() {
     e.preventDefault();
     setErrorMsg("");
 
-    // Basic Validations
-    if (!fullName.trim() || !email.trim() || !whatsapp.trim() || !college.trim() || !deadline) {
+    if (!college.trim() || !deadline) {
       setErrorMsg("Please fill in all required fields marked with *");
       return;
     }
@@ -191,15 +236,11 @@ function EnquiryFormContent() {
     }
 
     setIsSubmitting(true);
-    await submitToFirestore();
+    await submitToFirestore(enqId, auth.currentUser.uid, auth.currentUser.email || email);
   };
 
-  const submitToFirestore = async () => {
+  const submitToFirestore = async (finalId: string, uid: string, finalEmail: string) => {
     try {
-      // Generate random Enquiry ID instead of exposing collection count
-      const randomCount = Math.floor(1000 + Math.random() * 9000);
-      const enqShortId = `PF-ENQ-${randomCount}`;
-
       let refCode = refValData?.valid ? referral.trim().toUpperCase() : "";
 
       if (refCode) {
@@ -216,9 +257,9 @@ function EnquiryFormContent() {
       }
 
       const payload = {
-        id: enqShortId,
+        id: finalId,
         full_name: fullName,
-        email: email,
+        email: finalEmail,
         whatsapp_number: whatsapp,
         college_name: college,
         department: department,
@@ -234,10 +275,11 @@ function EnquiryFormContent() {
         message: message || `Enquiry for ${projectOptions.find(p => p.slug === projectSelected)?.title || projectSelected} project template.`,
         status: "New",
         notes: [],
-        created_at: serverTimestamp()
+        user_id: uid,
+        created_at: serverTimestamp() // Safe because merge: true
       };
 
-      await setDoc(doc(db, "enquiries", enqShortId), payload);
+      await setDoc(doc(db, "enquiries", finalId), payload, { merge: true });
 
       // Fire & Forget: Send Enquiry Notification Email
       fetch('/api/send-email', {
@@ -245,15 +287,15 @@ function EnquiryFormContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type: 'ENQUIRY',
-          to: email,
+          to: finalEmail,
           data: {
             name: fullName,
-            enqShortId: enqShortId
+            enqShortId: finalId
           }
         })
       }).catch(err => console.error("Email send failed:", err));
 
-      setSuccessData({ id: enqShortId });
+      setSuccessData({ id: finalId });
       // Redirect to dashboard after successful submission
       router.push("/student/dashboard");
     } catch (err) {
@@ -311,84 +353,76 @@ function EnquiryFormContent() {
           Get a Custom Project Quote
         </h1>
         <p className="mt-2 text-slate-400 text-sm">
-          Submit your requirements and academic parameters. No credit card required.
+          {formStep === 1 ? "Enter your contact details so we can reach you." : "Submit your academic parameters. No credit card required."}
         </p>
+        
+        {/* Step Indicator */}
+        <div className="flex items-center justify-center mt-6 gap-2">
+          <div className={`w-8 h-2 rounded-full ${formStep >= 1 ? 'bg-indigo-500' : 'bg-white/10'}`}></div>
+          <div className={`w-8 h-2 rounded-full ${formStep >= 2 ? 'bg-indigo-500' : 'bg-white/10'}`}></div>
+        </div>
       </div>
 
-      <div className="glass-card p-6 sm:p-10">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {errorMsg && (
-            <div className="rounded-lg bg-rose-500/10 border border-rose-500/20 p-4 text-sm text-rose-400 font-medium">
-              ⚠️ {errorMsg}
-            </div>
-          )}
+      <div className="glass-card p-6 sm:p-10 relative overflow-hidden">
+        {errorMsg && (
+          <div className="mb-6 rounded-lg bg-rose-500/10 border border-rose-500/20 p-4 text-sm text-rose-400 font-medium">
+            ⚠️ {errorMsg}
+          </div>
+        )}
 
-          {/* Section 1: Student Profile */}
-          <div>
+        {/* STEP 1: Basic Info */}
+        {formStep === 1 && (
+          <form onSubmit={handleStep1Submit} className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
             <h3 className="text-sm font-bold uppercase tracking-wider text-indigo-400 mb-4">
-              1. Student Details
+              1. Contact Information
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  Full Name *
-                </label>
-                <input placeholder="Enter Full Name"
-                  type="text"
-                  required
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">Full Name *</label>
+                <input placeholder="Enter Full Name" type="text" required value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50" />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">Email Address *</label>
+                <input placeholder="Enter Email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50" />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">WhatsApp Number *</label>
+                <input placeholder="Enter Mobile Number" type="tel" required value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50" />
+              </div>
+            </div>
+            
+            <div className="pt-4">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="gradient-btn text-center block w-full py-4 rounded-xl text-sm font-bold text-white shadow-lg shadow-indigo-500/20 disabled:opacity-70 disabled:cursor-wait"
+              >
+                {isSubmitting ? "Saving..." : "Continue to Project Details ➔"}
+              </button>
+            </div>
+          </form>
+        )}
 
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
-                />
+        {/* STEP 2: Scope & Quote */}
+        {formStep === 2 && (
+          <form onSubmit={handleSubmit} className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+            <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
+              <button type="button" onClick={() => setFormStep(1)} className="text-xs text-slate-400 hover:text-white transition-colors">
+                ← Back
+              </button>
+              <h3 className="text-sm font-bold uppercase tracking-wider text-indigo-400">
+                2. Project Scope & College
+              </h3>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">College Name *</label>
+                <input placeholder="Enter College" type="text" required value={college} onChange={(e) => setCollege(e.target.value)} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  Email Address *
-                </label>
-                <input placeholder="Enter Email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  WhatsApp Number *
-                </label>
-                <input placeholder="Enter Mobile Number"
-                  type="tel"
-                  required
-                  value={whatsapp}
-                  onChange={(e) => setWhatsapp(e.target.value)}
-
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  College Name *
-                </label>
-                <input placeholder="Enter College"
-                  type="text"
-                  required
-                  value={college}
-                  onChange={(e) => setCollege(e.target.value)}
-
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  Department *
-                </label>
-                <select
-                  value={department}
-                  onChange={(e) => setDepartment(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50"
-                >
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">Department *</label>
+                <select value={department} onChange={(e) => setDepartment(e.target.value)} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50">
                   <option value="AI & DS">AI & DS</option>
                   <option value="CSE">CSE</option>
                   <option value="IT">IT</option>
@@ -401,15 +435,9 @@ function EnquiryFormContent() {
                   <option value="Arts">Arts</option>
                 </select>
               </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  Academic Year *
-                </label>
-                <select
-                  value={year}
-                  onChange={(e) => setYear(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50"
-                >
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">Academic Year *</label>
+                <select value={year} onChange={(e) => setYear(e.target.value)} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50">
                   <option value="1st Year">1st Year</option>
                   <option value="2nd Year">2nd Year</option>
                   <option value="3rd Year">3rd Year</option>
@@ -418,179 +446,83 @@ function EnquiryFormContent() {
                 </select>
               </div>
             </div>
-          </div>
 
-          {/* Section 2: Project Specifications */}
-          <div className="border-t border-white/5 pt-6">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-indigo-400 mb-4">
-              2. Project Scope
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="border-t border-white/5 pt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  Select Project Baseline template *
-                </label>
-                <select
-                  value={projectSelected}
-                  onChange={(e) => setProjectSelected(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50"
-                >
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">Select Project Baseline template *</label>
+                <select value={projectSelected} onChange={(e) => setProjectSelected(e.target.value)} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50">
                   {projectOptions.map((opt) => (
                     <option key={opt.slug} value={opt.slug}>{opt.title}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  Preferred Technologies / Stack
-                </label>
-                <input placeholder="Enter Preferred Technology"
-                  type="text"
-                  value={prefTech}
-                  onChange={(e) => setPrefTech(e.target.value)}
-
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
-                />
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">Preferred Technologies</label>
+                <input placeholder="Enter Preferred Technology" type="text" value={prefTech} onChange={(e) => setPrefTech(e.target.value)} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  Submission Deadline *
-                </label>
-                <input
-                  type="date"
-                  required
-                  min={today}
-                  value={deadline}
-                  onChange={(e) => setDeadline(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50"
-                />
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">Submission Deadline *</label>
+                <input type="date" required min={today} value={deadline} onChange={(e) => setDeadline(e.target.value)} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  Estimated Budget Bracket *
-                </label>
-                <select
-                  value={budget}
-                  onChange={(e) => setBudget(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50"
-                >
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">Estimated Budget Bracket *</label>
+                <select value={budget} onChange={(e) => setBudget(e.target.value)} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500/50">
                   <option value="Under ₹2,000">Under ₹2,000</option>
                   <option value="₹2,000–₹5,000">₹2,000–₹5,000</option>
                   <option value="₹5,000–₹10,000">₹5,000–₹10,000</option>
                   <option value="₹10,000+">₹10,000+</option>
                 </select>
               </div>
-
-              {/* Addons checks */}
+              
               <div className="flex flex-col justify-center space-y-3">
                 <label className="flex items-center text-xs font-semibold text-slate-300 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={deploymentRequired}
-                    onChange={(e) => setDeploymentRequired(e.target.checked)}
-                    className="rounded border-white/5 bg-slate-900 text-indigo-600 focus:ring-0 mr-2 h-4 w-4"
-                  />
-                  Live cloud deployment required
+                  <input type="checkbox" checked={deploymentRequired} onChange={(e) => setDeploymentRequired(e.target.checked)} className="rounded border-white/5 bg-slate-900 text-indigo-600 mr-2" /> Live cloud deployment
                 </label>
                 <label className="flex items-center text-xs font-semibold text-slate-300 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={demoRequired}
-                    onChange={(e) => setDemoRequired(e.target.checked)}
-                    className="rounded border-white/5 bg-slate-900 text-indigo-600 focus:ring-0 mr-2 h-4 w-4"
-                  />
-                  Recorded walk-through demo video required
+                  <input type="checkbox" checked={demoRequired} onChange={(e) => setDemoRequired(e.target.checked)} className="rounded border-white/5 bg-slate-900 text-indigo-600 mr-2" /> Recorded demo video
                 </label>
               </div>
-
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  Custom Customization Rules / Syllabus Guidelines
-                </label>
-                <textarea placeholder="Enter Add Requirements"
-                  value={addRequirements}
-                  onChange={(e) => setAddRequirements(e.target.value)}
-
-                  rows={3}
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
-                />
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">Custom Rules / Syllabus Guidelines</label>
+                <textarea placeholder="Enter Add Requirements" value={addRequirements} onChange={(e) => setAddRequirements(e.target.value)} rows={2} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50" />
               </div>
             </div>
-          </div>
 
-          {/* Section 3: Referrals & Submit */}
-          <div className="border-t border-white/5 pt-6 space-y-6">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-indigo-400 mb-4">
-              3. Codes & Finalization
-            </h3>
-            
-            {/* Referral field */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
-              <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  Referral / Influencer Promo Code
-                </label>
-                <input placeholder="Enter Referral"
-                  type="text"
-                  value={referral}
-                  onChange={(e) => {
-                    setReferral(e.target.value);
-                    setRefValData(null); // Reset validation data on change
-                  }}
-
-                  className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
-                />
-              </div>
-              <button
-                type="button"
-                onClick={handleVerifyReferral}
-                disabled={refChecking || !referral.trim()}
-                className="w-full rounded-lg border border-indigo-500/30 hover:border-indigo-500/50 hover:bg-indigo-500/10 text-indigo-400 py-2.5 text-xs font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {refChecking ? "Verifying..." : "Verify Code"}
-              </button>
+            <div className="border-t border-white/5 pt-6 space-y-6">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-indigo-400 mb-4">3. Finalization</h3>
               
-              {/* Validation Feedback */}
-              {refValData && (
-                <div className="sm:col-span-3">
-                  {refValData.valid ? (
-                    <span className="text-xs text-emerald-400 font-semibold block">
-                      ✓ Promo valid! {refValData.name} ({refValData.discount_percentage}% discount applied).
-                    </span>
-                  ) : (
-                    <span className="text-xs text-rose-400 font-semibold block">
-                      ✗ Invalid promo code.
-                    </span>
-                  )}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-400 mb-1.5">Promo Code</label>
+                  <input placeholder="Enter Referral" type="text" value={referral} onChange={(e) => { setReferral(e.target.value); setRefValData(null); }} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50" />
                 </div>
-              )}
+                <button type="button" onClick={handleVerifyReferral} disabled={refChecking || !referral.trim()} className="w-full rounded-lg border border-indigo-500/30 hover:bg-indigo-500/10 text-indigo-400 py-2.5 text-xs font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                  {refChecking ? "Verifying..." : "Verify Code"}
+                </button>
+                {refValData && (
+                  <div className="sm:col-span-3">
+                    {refValData.valid ? (
+                      <span className="text-xs text-emerald-400 font-semibold block">✓ Promo valid! {refValData.name} ({refValData.discount_percentage}% discount applied).</span>
+                    ) : (
+                      <span className="text-xs text-rose-400 font-semibold block">✗ Invalid promo code.</span>
+                    )}
+                  </div>
+                )}
+              </div>
+              
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 mb-1.5">Remarks / Message</label>
+                <textarea placeholder="Enter Message" value={message} onChange={(e) => setMessage(e.target.value)} rows={2} className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50" />
+              </div>
+
+              <div className="pt-4">
+                <button type="submit" disabled={isSubmitting} className="gradient-btn text-center block w-full py-4 rounded-xl text-sm font-bold text-white shadow-lg shadow-indigo-500/20 disabled:opacity-70 disabled:cursor-wait">
+                  {isSubmitting ? "Submitting..." : "Submit Enquiry & Request Quote"}
+                </button>
+              </div>
             </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                Remarks / Personal Message
-              </label>
-              <textarea placeholder="Enter Message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-
-                rows={2}
-                className="w-full rounded-lg bg-slate-900 border border-white/5 px-3.5 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/50"
-              />
-            </div>
-
-            <div className="pt-4">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="gradient-btn text-center block w-full py-4 rounded-xl text-sm font-bold text-white shadow-lg shadow-indigo-500/20 disabled:opacity-70 disabled:cursor-wait"
-              >
-                {isSubmitting ? "Submitting requirements..." : "Submit Enquiry & Request Quote"}
-              </button>
-            </div>
-          </div>
-
-        </form>
+          </form>
+        )}
       </div>
 
       {showAuthModal && (
@@ -669,22 +601,10 @@ function EnquiryFormContent() {
                 className="w-full flex justify-center items-center gap-2 bg-white text-slate-900 py-3 rounded-lg text-sm font-bold shadow-lg hover:bg-slate-100 transition-all disabled:opacity-50"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
-                  <path
-                    fill="currentColor"
-                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                  />
+                  <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                 </svg>
                 Google
               </button>
