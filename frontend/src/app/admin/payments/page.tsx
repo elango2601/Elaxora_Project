@@ -99,8 +99,8 @@ export default function AdminPaymentsPage() {
   const filteredPayments = payments.filter((p) => {
     if (search.trim() !== "") {
       const q = search.toLowerCase();
-      const matchId = p.order_id.toLowerCase().includes(q);
-      const matchName = p.student_name.toLowerCase().includes(q);
+      const matchId = (p.order_id || "").toLowerCase().includes(q);
+      const matchName = (p.student_name || "").toLowerCase().includes(q);
       if (!matchId && !matchName) return false;
     }
     if (selectedPhase && p.phase !== selectedPhase) return false;

@@ -90,9 +90,9 @@ export default function AdminCustomersPage() {
   const filteredCustomers = customers.filter((c) => {
     if (search.trim() !== "") {
       const q = search.toLowerCase();
-      const matchName = c.name.toLowerCase().includes(q);
-      const matchEmail = c.email.toLowerCase().includes(q);
-      const matchCol = c.college.toLowerCase().includes(q);
+      const matchName = (c.name || "").toLowerCase().includes(q);
+      const matchEmail = (c.email || "").toLowerCase().includes(q);
+      const matchCol = (c.college || "").toLowerCase().includes(q);
       if (!matchName && !matchEmail && !matchCol) return false;
     }
     return true;

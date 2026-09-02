@@ -85,8 +85,8 @@ export default function AdminQuotesPage() {
   const filteredQuotes = quotes.filter((q) => {
     if (search.trim() !== "") {
       const query = search.toLowerCase();
-      const matchId = q.id.toLowerCase().includes(query);
-      const matchEnq = q.enquiry_id.toLowerCase().includes(query);
+      const matchId = (q.id || "").toLowerCase().includes(query);
+      const matchEnq = (q.enquiry_id || "").toLowerCase().includes(query);
       if (!matchId && !matchEnq) return false;
     }
     if (selectedStatus && q.status !== selectedStatus) return false;
