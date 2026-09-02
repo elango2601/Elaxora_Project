@@ -448,7 +448,7 @@ export default function AdminOrdersPage() {
                 <div className="space-y-3 border-b border-white/5 pb-5">
                   <h4 className="text-xs font-bold text-indigo-400 uppercase">Milestones checklist</h4>
                   <div className="space-y-2 max-h-32 overflow-y-auto no-scrollbar">
-                    {selectedOrder.milestones.map((m, idx) => (
+                    {(selectedOrder.milestones || []).map((m, idx) => (
                       <label key={idx} className="flex items-center text-xs text-slate-300 cursor-pointer select-none">
                         <input
                           type="checkbox"
@@ -516,7 +516,7 @@ export default function AdminOrdersPage() {
                     <p className="text-[10px] text-slate-500">No custom feature requests submitted.</p>
                   ) : (
                     <div className="space-y-3">
-                      {selectedOrder.change_requests.map((cr) => (
+                      {(selectedOrder.change_requests || []).map((cr) => (
                         <div key={cr.id} className="border border-white/5 rounded p-3 bg-slate-950/20 text-xs space-y-2">
                           <div className="flex justify-between items-start">
                             <div>
