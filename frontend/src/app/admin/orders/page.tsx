@@ -60,6 +60,11 @@ interface Order {
 }
 
 export default function AdminOrdersPage() {
+  const formatTitle = (slug: string) => {
+    if (!slug) return "Custom Project";
+    return slug.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+  };
+
   const router = useRouter();
   
   const [orders, setOrders] = useState<Order[]>([]);
@@ -184,11 +189,20 @@ export default function AdminOrdersPage() {
       const updatedPayments = [...(selectedOrder.payments || []), newPayment];
       const orderRef = doc(db, "orders", selectedOrder.id);
       
-      await updateDoc(orderRef, {
-        payments: updatedPayments
-      });
+      const updateData: any = { payments: updatedPayments };
+      
+      // Auto-unlock scope if Advance is paid
+      if (payPhase === "Advance") {
+        updateData.scope_status = "LOCKED";
+        updateData.advance_paid = true;
+      }
+      if (payPhase === "Final") {
+        updateData.order_status = "Completed";
+      }
+      
+      await updateDoc(orderRef, updateData);
 
-      const updated = { ...selectedOrder, payments: updatedPayments };
+      const updated = { ...selectedOrder, ...updateData };
       setSelectedOrder(updated);
       setOrders(orders.map((o) => (o.id === updated.id ? updated : o)));
       setPayNotes("");
@@ -350,7 +364,7 @@ export default function AdminOrdersPage() {
                               <span className="text-[10px] text-slate-500 block">{o.student_whatsapp}</span>
                             </td>
                             <td className="p-4">
-                              <span className="text-indigo-400 font-semibold block">{o.project_title}</span>
+                              <span className="text-indigo-400 font-semibold block">{formatTitle(o.project_title)}</span>
                               <span className="text-[10px] text-slate-500 block">Scope: {o.scope_status}</span>
                             </td>
                             <td className="p-4">

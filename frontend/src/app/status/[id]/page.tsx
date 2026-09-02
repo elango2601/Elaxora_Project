@@ -60,6 +60,11 @@ interface Order {
 }
 
 export default function StudentProjectStatus() {
+  const formatTitle = (slug: string) => {
+    if (!slug) return "Custom Project";
+    return slug.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+  };
+
   const params = useParams();
   const orderId = params.id as string;
 
@@ -186,7 +191,7 @@ export default function StudentProjectStatus() {
             Order Live Status
           </span>
           <h1 className="text-2xl font-extrabold text-white sm:text-3xl tracking-tight mt-1">
-            {order.project_title}
+            {formatTitle(order.project_title)}
           </h1>
           <p className="text-slate-500 text-xs mt-1">
             ID: <span className="text-slate-300 font-mono font-bold select-all">{order.id}</span> • Student: {order.student_name}
