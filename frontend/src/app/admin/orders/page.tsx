@@ -65,6 +65,7 @@ export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Detailed selected order dossier
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -283,6 +284,12 @@ export default function AdminOrdersPage() {
     }
   };
 
+  const filteredOrders = orders.filter(o => {
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return o.id?.toLowerCase().includes(q) || o.student_name?.toLowerCase().includes(q) || o.quote_id?.toLowerCase().includes(q);
+  });
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
       <AdminSidebar />
@@ -290,6 +297,16 @@ export default function AdminOrdersPage() {
         <div>
           <h1 className="text-2xl font-extrabold text-white tracking-tight">Active Orders</h1>
           <p className="text-slate-400 text-xs mt-1">Record payments, manage development milestones, and process change requests.</p>
+        </div>
+
+        <div className="mb-4">
+          <input 
+            type="text" 
+            placeholder="Search by Order ID, Student Name, or Quote ID..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full sm:w-1/2 rounded-lg bg-slate-900 border border-white/5 px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500/50"
+          />
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
@@ -315,14 +332,14 @@ export default function AdminOrdersPage() {
                           Loading active orders...
                         </td>
                       </tr>
-                    ) : orders.length === 0 ? (
+                    ) : filteredOrders.length === 0 ? (
                       <tr>
                         <td colSpan={6} className="p-8 text-center text-slate-500">
                           No active student projects.
                         </td>
                       </tr>
                     ) : (
-                      orders.map((o) => {
+                      filteredOrders.map((o) => {
                         const totalPaid = (o.payments || []).reduce((acc, p) => acc + p.amount, 0);
                         const balance = o.price - totalPaid;
                         return (

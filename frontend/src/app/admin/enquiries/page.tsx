@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import AdminSidebar from "@/components/AdminSidebar";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, getDocs, doc, updateDoc, addDoc, onSnapshot } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, addDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { exportToCSV } from "@/lib/exportUtils";
 
 interface Enquiry {
@@ -37,6 +37,7 @@ export default function AdminEnquiriesPage() {
   const [loading, setLoading] = useState(true);
   const [projectsMap, setProjectsMap] = useState<Record<string, string>>({});
   const [token, setToken] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Detailed modal/drawer states
   const [selectedEnquiry, setSelectedEnquiry] = useState<Enquiry | null>(null);
@@ -136,7 +137,7 @@ export default function AdminEnquiriesPage() {
       const enqRef = doc(db, "enquiries", enqId);
       await updateDoc(enqRef, { status: newStatus });
       
-      const updatedEnquiries = enquiries.map((e) => (e.id === enqId ? { ...e, status: newStatus } : e));
+      const updatedEnquiries = filteredEnquiries.map((e) => (e.id === enqId ? { ...e, status: newStatus } : e));
       setEnquiries(updatedEnquiries);
       
       if (selectedEnquiry?.id === enqId) {
@@ -238,7 +239,10 @@ export default function AdminEnquiriesPage() {
     };
 
     try {
-      const docRef = await addDoc(collection(db, "quotes"), {
+      const qutShortId = `PF-QUT-${Math.floor(1000 + Math.random() * 9000)}`;
+      const docRef = doc(db, "quotes", qutShortId);
+      await setDoc(docRef, {
+        id: qutShortId,
         ...payload,
         created_at: new Date().toISOString()
       });
@@ -266,6 +270,12 @@ export default function AdminEnquiriesPage() {
     exportToCSV("elaxora_enquiries.csv", [headers, ...rows]);
   };
 
+  const filteredEnquiries = enquiries.filter(e => {
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return e.id?.toLowerCase().includes(q) || e.full_name?.toLowerCase().includes(q) || e.email?.toLowerCase().includes(q);
+  });
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
       <AdminSidebar />
@@ -282,6 +292,16 @@ export default function AdminEnquiriesPage() {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             Export to Excel/CSV
           </button>
+        </div>
+
+        <div className="mb-4">
+          <input 
+            type="text" 
+            placeholder="Search by Enquiry ID, Student Name, or Email..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full sm:w-1/2 rounded-lg bg-slate-900 border border-white/5 px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500/50"
+          />
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
@@ -307,7 +327,7 @@ export default function AdminEnquiriesPage() {
                           Loading enquiries database...
                         </td>
                       </tr>
-                    ) : enquiries.length === 0 ? (
+                    ) : filteredEnquiries.length === 0 ? (
                       <tr>
                         <td colSpan={6} className="p-8 text-center text-slate-500">
                           No student enquiries logged.
