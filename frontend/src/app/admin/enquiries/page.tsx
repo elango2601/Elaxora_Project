@@ -137,7 +137,7 @@ export default function AdminEnquiriesPage() {
       const enqRef = doc(db, "enquiries", enqId);
       await updateDoc(enqRef, { status: newStatus });
       
-      const updatedEnquiries = filteredEnquiries.map((e) => (e.id === enqId ? { ...e, status: newStatus } : e));
+      const updatedEnquiries = enquiries.map((e) => (e.id === enqId ? { ...e, status: newStatus } : e));
       setEnquiries(updatedEnquiries);
       
       if (selectedEnquiry?.id === enqId) {
@@ -334,7 +334,7 @@ export default function AdminEnquiriesPage() {
                         </td>
                       </tr>
                     ) : (
-                      enquiries.map((e) => (
+                      filteredEnquiries.map((e) => (
                         <tr key={e.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                           <td className="p-4 font-mono font-bold text-slate-300">{e.id}</td>
                           <td className="p-4">
