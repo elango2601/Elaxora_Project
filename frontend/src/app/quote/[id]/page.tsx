@@ -65,7 +65,7 @@ export default function StudentQuoteView() {
         } else {
           setError("Quotation not found. Please verify the URL link.");
         }
-      } catch (err) {
+      } catch (err: any) {
         setError("Quotation API offline. Please check back later.");
       } finally {
         setLoading(false);
@@ -78,16 +78,12 @@ export default function StudentQuoteView() {
     if (!quote) return;
     setIsSubmitting(true);
     try {
-      // 1. Mark quote as accepted
-      const quoteRef = doc(db, "quotes", quote.id);
-      await updateDoc(quoteRef, { status: "Accepted" });
-      
-      // 2. Fetch original enquiry to build the order
+      // 1. Fetch original enquiry to build the order
       const enqRef = doc(db, "enquiries", quote.enquiry_id);
       const enqSnap = await getDoc(enqRef);
       const enqData = enqSnap.exists() ? enqSnap.data() : {};
       
-      // 3. Create the active order document
+      // 2. Create the active order document
       const orderId = `PF-ORD-${quote.id.split("-").pop()}`;
       const orderRef = doc(db, "orders", orderId);
       
@@ -118,16 +114,19 @@ export default function StudentQuoteView() {
         created_at: new Date().toISOString()
       }, { merge: true });
 
-      // 4. Update enquiry status to Accepted
+      // 3. Mark quote and enquiry as accepted AFTER order is securely created
+      const quoteRef = doc(db, "quotes", quote.id);
+      await updateDoc(quoteRef, { status: "Accepted" });
+
       if (enqSnap.exists()) {
         await updateDoc(enqRef, { status: "Accepted" });
       }
       
       // Redirection to the live status page
       router.push(`/status/${orderId}`);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert("Error contacting quotation server.");
+      alert("Error placing order: " + err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -147,7 +146,7 @@ export default function StudentQuoteView() {
       setQuote({ ...quote, status: "Change Requested" });
       setShowRejectForm(false);
       alert("Feedback submitted successfully. The developer has been notified.");
-    } catch (err) {
+    } catch (err: any) {
       alert("Error sending request to server.");
     } finally {
       setIsSubmitting(false);
