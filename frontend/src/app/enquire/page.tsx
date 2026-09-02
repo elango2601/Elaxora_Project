@@ -132,7 +132,7 @@ function EnquiryFormContent() {
       } else {
         setRefValData({ valid: false, discount_percentage: 0, message: "Verification failed." });
       }
-    } catch (err) {
+    } catch (err: any) {
       setRefValData({ valid: false, discount_percentage: 0, message: "Referral validation failed." });
     } finally {
       setRefChecking(false);
@@ -154,7 +154,7 @@ function EnquiryFormContent() {
       await setDoc(doc(db, "enquiries", enqId), {
         id: enqId,
         full_name: fullName,
-        email: email,
+        email: email.toLowerCase(),
         whatsapp_number: whatsapp,
         status: "Partial",
         created_at: serverTimestamp()
@@ -236,7 +236,16 @@ function EnquiryFormContent() {
     }
 
     setIsSubmitting(true);
-    await submitToFirestore(enqId, auth.currentUser.uid, auth.currentUser.email || email);
+    
+    // Prevent permission denied if they logged in with a different email than they typed in step 1
+    const currentUserEmail = auth.currentUser.email?.toLowerCase();
+    const typedEmail = email.toLowerCase();
+    let finalId = enqId;
+    if (currentUserEmail && currentUserEmail !== typedEmail) {
+      finalId = `PF-ENQ-${Math.floor(1000 + Math.random() * 9000)}`;
+    }
+
+    await submitToFirestore(finalId, auth.currentUser.uid, currentUserEmail || typedEmail);
   };
 
   const submitToFirestore = async (finalId: string, uid: string, finalEmail: string) => {
@@ -298,8 +307,8 @@ function EnquiryFormContent() {
       setSuccessData({ id: finalId });
       // Redirect to dashboard after successful submission
       router.push("/student/dashboard");
-    } catch (err) {
-      setErrorMsg("Network error. Unable to submit enquiry to backend.");
+    } catch (err: any) {
+      setErrorMsg(`Network error: ${err.message || "Unable to submit enquiry to backend"}`);
     } finally {
       setIsSubmitting(false);
     }
