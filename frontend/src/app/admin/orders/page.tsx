@@ -512,7 +512,7 @@ export default function AdminOrdersPage() {
                 <div className="space-y-3">
                   <h4 className="text-xs font-bold text-indigo-400 uppercase">Process Change Requests</h4>
                   
-                  {selectedOrder.change_requests.length === 0 ? (
+                  {(selectedOrder.change_requests || []).length === 0 ? (
                     <p className="text-[10px] text-slate-500">No custom feature requests submitted.</p>
                   ) : (
                     <div className="space-y-3">
