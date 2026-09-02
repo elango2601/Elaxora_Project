@@ -86,6 +86,20 @@ export default function StudentProjectStatus() {
         const orderSnap = await getDoc(orderRef);
         if (orderSnap.exists()) {
           const data = orderSnap.data() as Omit<Order, 'id'>;
+          
+          // Attempt to resolve real project title from database if it's an ID
+          if (data.project_title && !data.project_title.includes(" ") && !data.project_title.includes("-")) {
+            try {
+              const projRef = doc(db, 'projects', data.project_title);
+              const projSnap = await getDoc(projRef);
+              if (projSnap.exists()) {
+                data.project_title = projSnap.data().title;
+              }
+            } catch (e) {
+              // ignore
+            }
+          }
+          
           setOrder({ id: orderSnap.id, ...data } as Order);
         } else {
           setError("Order status record not found. Verify your Order ID link.");
