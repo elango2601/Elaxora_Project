@@ -287,7 +287,7 @@ export default function AdminOrdersPage() {
   const filteredOrders = orders.filter(o => {
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
-    return o.id?.toLowerCase().includes(q) || o.student_name?.toLowerCase().includes(q) || o.quote_id?.toLowerCase().includes(q);
+    return (o.id || "").toLowerCase().includes(q) || (o.student_name || "").toLowerCase().includes(q) || (o.quote_id || "").toLowerCase().includes(q) || (o.enquiry_id || "").toLowerCase().includes(q) || (o.student_email || "").toLowerCase().includes(q) || (o.project_title || "").toLowerCase().includes(q);
   });
 
   return (
@@ -302,7 +302,7 @@ export default function AdminOrdersPage() {
         <div className="mb-4">
           <input 
             type="text" 
-            placeholder="Search by Order ID, Student Name, or Quote ID..." 
+            placeholder="Search by Order ID, Enquiry ID, Quote ID, Student Name..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full sm:w-1/2 rounded-lg bg-slate-900 border border-white/5 px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500/50"

@@ -101,7 +101,8 @@ export default function AdminPaymentsPage() {
       const q = search.toLowerCase();
       const matchId = (p.order_id || "").toLowerCase().includes(q);
       const matchName = (p.student_name || "").toLowerCase().includes(q);
-      if (!matchId && !matchName) return false;
+      const matchEmail = (p.student_email || "").toLowerCase().includes(q);
+      if (!matchId && !matchName && !matchEmail) return false;
     }
     if (selectedPhase && p.phase !== selectedPhase) return false;
     return true;
